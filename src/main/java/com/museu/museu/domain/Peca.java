@@ -2,26 +2,36 @@ package com.museu.museu.domain;
 
 import java.util.Date;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "tb_pecas")
 @Entity
 public class Peca {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+    private String autor;
+    private String curador;
     private Date data_adquirida;
     private String descricao_peca;
     private Divisao divisao;
     private String estado_conservacao;
-    private Divisao localizacao;
     private Sessao sessao;
+    @Embedded
+    private EmprestarPeca emprestarPeca = null;
 
-    public Peca() {
-        
-    }
-
+    
     public Sessao getSessao() {
         return sessao;
     }
@@ -78,12 +88,32 @@ public class Peca {
         this.estado_conservacao = estado_conservacao;
     }
 
-    public Divisao getLocalizacao() {
-        return localizacao;
+    public String getPredio() {
+        return divisao.getPredio();
     }
 
-    public void setLocalizacao(Divisao localizacao) {
-        this.localizacao = localizacao;
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public String getCurador() {
+        return curador;
+    }
+
+    public void setCurador(String curador) {
+        this.curador = curador;
+    }
+
+    public EmprestarPeca getEmprestarPeca() {
+        return emprestarPeca;
+    }
+
+    public void setEmprestarPeca(EmprestarPeca emprestarPeca) {
+        this.emprestarPeca = emprestarPeca;
     }
 
 }
