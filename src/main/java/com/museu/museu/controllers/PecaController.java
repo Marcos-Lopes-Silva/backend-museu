@@ -18,9 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.museu.dto.DadosListagemPeca;
 import com.museu.museu.domain.EmprestarPeca;
 import com.museu.museu.domain.Peca;
+import com.museu.museu.dto.DadosListagemPeca;
 import com.museu.museu.repositories.PecaRepository;
 
 import jakarta.servlet.http.HttpServletRequest;

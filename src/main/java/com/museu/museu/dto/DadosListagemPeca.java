@@ -1,4 +1,4 @@
-package com.museu.dto;
+package com.museu.museu.dto;
 
 import java.util.Date;
 
