@@ -1,5 +1,5 @@
 package com.museu.museu.domain;
 
-public class CriancaPerdida {
-
+public class Role {
+        
 }

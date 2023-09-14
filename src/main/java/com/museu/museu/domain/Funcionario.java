@@ -1,20 +1,30 @@
 package com.museu.museu.domain;
 
+import com.museu.museu.dto.CadastroFuncionario;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
-@Table(name = "tb_funcionario")
+@Table(name = "tb_funcionarios")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Funcionario {
 
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,53 +33,19 @@ public class Funcionario {
     private String telefone;
     private String rg;
     private String cargo;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Usuario usuario;
 
-    public Integer getId() {
-        return id;
+    public Funcionario(@Valid CadastroFuncionario funcionario) {
+        this.nome = funcionario.nome();
+        this.cpf = funcionario.cpf();
+        this.telefone = funcionario.telefone();
+        this.rg = funcionario.rg();
+        this.cargo = funcionario.cargo();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public void setSenha(String senha) {
+        usuario.setSenha(senha);
     }
 
 }

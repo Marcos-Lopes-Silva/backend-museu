@@ -19,6 +19,7 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
+    
     public String getToken(Usuario user) {
 
         try {
@@ -35,7 +36,7 @@ public class TokenService {
         }
 
     }
-
+    
     public String getSubject(String token) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
