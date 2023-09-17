@@ -1,8 +1,10 @@
 package com.museu.museu.domain;
 
 import com.museu.museu.dto.CadastroFuncionario;
+import com.museu.museu.dto.EditarFuncionario;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +35,9 @@ public class Funcionario {
     private String telefone;
     private String rg;
     private String cargo;
+    private double salario;
+    @Embedded
+    private Endereco endereco;
     @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
 
@@ -48,4 +53,11 @@ public class Funcionario {
         usuario.setSenha(senha);
     }
 
+    public void setEdit(EditarFuncionario f){
+        this.nome = f.nome();
+        this.telefone = f.telefone();
+        this.cargo = f.cargo();
+        this.salario = f.salario();
+        this.endereco = f.endereco();
+    }
 }
