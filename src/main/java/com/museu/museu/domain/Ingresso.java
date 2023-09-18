@@ -34,7 +34,7 @@ public class Ingresso {
     private Funcionario vendedor;
     private String pagamento;
     @OneToOne
-    private Visitante tipo_documento;
+    private Visitante visitante;
 
 
     public Ingresso(@Valid DadosIngresso dadosIngresso) {
@@ -42,6 +42,6 @@ public class Ingresso {
         this.compra_online = dadosIngresso.compra_online();
         this.data_venda = LocalDate.now();
         this.pagamento = dadosIngresso.pagamento();
-        this.tipo_documento = dadosIngresso.tipo_documento();
+        this.visitante = dadosIngresso.visitante();
     }
 }
