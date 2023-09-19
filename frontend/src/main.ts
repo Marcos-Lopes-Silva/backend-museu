@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 
 function createWindow() {
@@ -7,20 +7,24 @@ function createWindow() {
     height: 1440,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: false,
+      nodeIntegration: true,
     },
     width: 1900,
     maximizable: false,
-    // maxHeight: 600,
-    // minHeight: 600,
-    // maxWidth: 800,
-    // minWidth: 800,
   });
-
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, '../src/pages/login/login.html'));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+  ipcMain.on('trocar-conteudo', (event, novoArquivo) => {
+    mainWindow.loadFile(path.join(__dirname, novoArquivo));
+    event.sender.send(
+      'conteudo-trocado',
+      `Conteudo trocado para ${novoArquivo}`,
+    );
+  });
 }
 
 // This method will be called when Electron has finished
