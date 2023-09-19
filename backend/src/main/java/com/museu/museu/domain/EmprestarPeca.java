@@ -1,6 +1,6 @@
 package com.museu.museu.domain;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ public class EmprestarPeca {
 
     private String localizacao;
     private String instituto;
-    private Date data_devolucao;
+    private OffsetDateTime data_devolucao;
 
     public String getLocalizacao() {
         return localizacao;
@@ -31,11 +31,11 @@ public class EmprestarPeca {
         this.instituto = instituto;
     }
 
-    public Date getData_devolucao() {
+    public OffsetDateTime getData_devolucao() {
         return data_devolucao;
     }
 
-    public void setData_devolucao(Date data_devolucao) {
+    public void setData_devolucao(OffsetDateTime data_devolucao) {
         this.data_devolucao = data_devolucao;
     }
 

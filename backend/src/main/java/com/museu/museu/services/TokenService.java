@@ -3,7 +3,6 @@ package com.museu.museu.services;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -12,13 +11,15 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.museu.museu.domain.Usuario;
 
+
+
 @Service
 public class TokenService {
 
     @Value("${jwt.secret}")
     private String secret;
 
-    @Bean
+    
     public String getToken(Usuario user) {
 
         try {
@@ -35,16 +36,15 @@ public class TokenService {
         }
 
     }
-
-    @Bean
+    
     public String getSubject(String token) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.require(algoritmo)
-                    .withIssuer("MUSEU5599 API")
-                    .build()
-                    .verify(token).getSubject();
-        } catch (JWTVerificationException exception) {
+            .withIssuer("MUSEU5599 API")
+            .build()
+            .verify(token).getSubject();
+        } catch(JWTVerificationException exception) {
             throw new RuntimeException("Erro ao verificar token.");
         }
     }

@@ -1,6 +1,11 @@
 package com.museu.museu.domain;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.museu.museu.dto.NovaPeca;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -8,12 +13,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "pecas")
+@Table(name = "tb_pecas")
 @Entity
 public class Peca {
 
@@ -31,68 +41,18 @@ public class Peca {
     @Embedded
     private EmprestarPeca emprestarPeca = null;
 
-    public Integer getId() {
-        return id;
-    }
+    public Peca(@Valid NovaPeca peca) {
+        this.nome = peca.nome();
+        this.autor = peca.autor();
+        this.curador = peca.curador();
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            this.data_adquirida = formatter.parse(peca.data_adquirida());
+        } catch (ParseException e) {
+            throw new RuntimeException("Erro ao converter data");
+        }
 
-    public void setId(Integer id) {
-        this.id = id;
+        this.descricao_peca = peca.descricao_peca();
+        this.estado_conservacao = peca.estado_conservacao();
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Date getData_adquirida() {
-        return data_adquirida;
-    }
-
-    public void setData_adquirida(Date data_adquirida) {
-        this.data_adquirida = data_adquirida;
-    }
-
-    public String getDescricao_peca() {
-        return descricao_peca;
-    }
-
-    public void setDescricao_peca(String descricao_peca) {
-        this.descricao_peca = descricao_peca;
-    }
-
-    public String getEstado_conservacao() {
-        return estado_conservacao;
-    }
-
-    public void setEstado_conservacao(String estado_conservacao) {
-        this.estado_conservacao = estado_conservacao;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public String getCurador() {
-        return curador;
-    }
-
-    public void setCurador(String curador) {
-        this.curador = curador;
-    }
-
-    public EmprestarPeca getEmprestarPeca() {
-        return emprestarPeca;
-    }
-
-    public void setEmprestarPeca(EmprestarPeca emprestarPeca) {
-        this.emprestarPeca = emprestarPeca;
-    }
-
 }

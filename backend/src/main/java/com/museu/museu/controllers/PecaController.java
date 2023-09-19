@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import com.museu.museu.domain.EmprestarPeca;
 import com.museu.museu.domain.Peca;
 import com.museu.museu.dto.DadosListagemPeca;
+import com.museu.museu.dto.NovaPeca;
 import com.museu.museu.repositories.PecaRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,16 +35,18 @@ public class PecaController {
     @Autowired
     private PecaRepository pecaRepository;
 
-    @Transactional
+    
     @PostMapping("/criar")
-    public ResponseEntity<Peca> criarPeca(@Valid @RequestBody Peca peca, HttpServletRequest request,
+    @Transactional
+    public ResponseEntity<Peca> criarPeca(@Valid @RequestBody NovaPeca peca, HttpServletRequest request,
             UriComponentsBuilder builder) {
+        Peca novaPeca = new Peca(peca);
 
-        pecaRepository.save(peca);
+        pecaRepository.save(novaPeca);
 
-        var uri = builder.path("/pecas/{id}").buildAndExpand(peca.getId()).toUri();
+        var uri = builder.path("/pecas/{id}").buildAndExpand(novaPeca.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(peca);
+        return ResponseEntity.created(uri).body(novaPeca);
     }
 
     @GetMapping("/listar")

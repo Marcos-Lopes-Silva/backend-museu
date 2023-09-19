@@ -8,15 +8,18 @@ import org.springframework.stereotype.Service;
 
 import com.museu.museu.repositories.UserRepository;
 
+
 @Service
-public class AuthenticationService implements UserDetailsService {
+public class AuthenticationService implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("Username "+username);
+
         return userRepository.findByEmail(username);
     }
-
+    
 }

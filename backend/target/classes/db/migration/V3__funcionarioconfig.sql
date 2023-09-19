@@ -1,0 +1,1 @@
+alter table tb_funcionarios modify column usuario_id integer null;

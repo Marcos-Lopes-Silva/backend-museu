@@ -1,5 +1,6 @@
 package com.museu.museu.dto;
 
-public record DadosLogin(String login, String senha) {
+import jakarta.validation.constraints.NotBlank;
 
+public record DadosLogin( @NotBlank String login, @NotBlank String senha) {
 }
