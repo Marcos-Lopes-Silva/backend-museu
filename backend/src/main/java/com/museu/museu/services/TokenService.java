@@ -11,15 +11,12 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.museu.museu.domain.Usuario;
 
-
-
 @Service
 public class TokenService {
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secre}")
     private String secret;
 
-    
     public String getToken(Usuario user) {
 
         try {
@@ -36,15 +33,15 @@ public class TokenService {
         }
 
     }
-    
+
     public String getSubject(String token) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.require(algoritmo)
-            .withIssuer("MUSEU5599 API")
-            .build()
-            .verify(token).getSubject();
-        } catch(JWTVerificationException exception) {
+                    .withIssuer("MUSEU5599 API")
+                    .build()
+                    .verify(token).getSubject();
+        } catch (JWTVerificationException exception) {
             throw new RuntimeException("Erro ao verificar token.");
         }
     }

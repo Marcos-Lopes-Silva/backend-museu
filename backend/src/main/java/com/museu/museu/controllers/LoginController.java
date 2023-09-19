@@ -20,7 +20,6 @@ import jakarta.validation.Valid;
 @RequestMapping("/login")
 public class LoginController {
 
-
     @Autowired
     private AuthenticationManager authManager;
 
@@ -29,6 +28,8 @@ public class LoginController {
 
     @PostMapping
     public ResponseEntity<Token> login(@Valid @RequestBody DadosLogin dados) {
+        System.out.println("oii");
+
         var authToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
         var authentication = authManager.authenticate(authToken);
         var token = tokenService.getToken((Usuario) authentication.getPrincipal());

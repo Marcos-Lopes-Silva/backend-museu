@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,34 +27,35 @@ import com.museu.museu.dto.DadosFuncionario;
 import com.museu.museu.dto.DadosListagemFuncionario;
 import com.museu.museu.dto.EditarFuncionario;
 import com.museu.museu.repositories.FuncionarioRepository;
-import com.museu.museu.repositories.UserRepository;
+import com.museu.museu.repositories.UsuarioRepository;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
+@RequestMapping("/funcionarios")
 @RestController
-@RequestMapping("/funcionario")
-public class FuncionarioController {
+public class FuncionariosController {
+
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
 
     @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
-    private UserRepository userRepository;
+    private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private FuncionarioRepository funcionarioRepository;
-
-    @PostMapping("/registrar")
+    @PostMapping("/novo")
     @Transactional
     public ResponseEntity<DadosFuncionario> registrarFuncionario(@Valid @RequestBody CadastroFuncionario funcionario,
             UriComponentsBuilder builder) {
 
         Funcionario novoFuncionario = new Funcionario(funcionario);
+
         Usuario usuario = new Usuario(funcionario.email(), encoder.encode(funcionario.senha()), novoFuncionario);
+
         novoFuncionario.setUsuario(usuario);
 
-        userRepository.save(usuario);
+        usuarioRepository.save(usuario);
         funcionarioRepository.save(novoFuncionario);
 
         var uri = builder.buildAndExpand(novoFuncionario.getId()).toUri();
@@ -72,8 +74,8 @@ public class FuncionarioController {
         return ResponseEntity.ok(new DadosFuncionario(funcionario.get()));
     }
 
-    @GetMapping("/listar")
-    public ResponseEntity<Page<DadosListagemFuncionario>> listarPecas(
+    @GetMapping
+    public ResponseEntity<Page<DadosListagemFuncionario>> listarFuncionarios(
             @PageableDefault(size = 10, sort = "id") Pageable paginacao) {
 
         Page<Funcionario> lista = funcionarioRepository.findAll(paginacao);

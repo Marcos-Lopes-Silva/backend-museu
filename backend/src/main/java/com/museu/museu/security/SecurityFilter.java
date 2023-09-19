@@ -8,7 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.museu.museu.repositories.UserRepository;
+import com.museu.museu.repositories.UsuarioRepository;
+// import com.museu.museu.repositories.UserRepository;
 import com.museu.museu.services.TokenService;
 
 import jakarta.servlet.FilterChain;
@@ -23,25 +24,24 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-                var token = recuperarToken(request);
-            
-            if(token != null) {
-                var subject = tokenService.getSubject(token);
-                var user = userRepository.findByEmail(subject);
-                request.setAttribute("user", user);
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+        var token = recuperarToken(request);
 
-            filterChain.doFilter(request, response);
+        if (token != null) {
+            var subject = tokenService.getSubject(token);
+            var user = usuarioRepository.findByEmail(subject);
+            request.setAttribute("user", user);
+            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
+        filterChain.doFilter(request, response);
     }
-    
-    
+
     private String recuperarToken(HttpServletRequest request) {
         var authorization = request.getHeader("Authorization");
 
@@ -51,6 +51,5 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         return null;
     }
-    
 
 }
