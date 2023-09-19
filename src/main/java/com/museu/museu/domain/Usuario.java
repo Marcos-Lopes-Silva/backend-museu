@@ -1,10 +1,10 @@
 package com.museu.museu.domain;
+
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,22 +22,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "tb_usuarios")
 @Entity
-public class Usuario implements UserDetails{
-    
+public class Usuario implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String email;
     private String senha;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Funcionario funcionario;
+    @OneToOne
+    private Funcionario funcionarios;
 
     public Usuario(String email, String senha, Funcionario funcionario) {
         this.email = email;
         this.senha = senha;
-        this.funcionario = funcionario;
+        this.funcionarios = funcionario;
     }
-   
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

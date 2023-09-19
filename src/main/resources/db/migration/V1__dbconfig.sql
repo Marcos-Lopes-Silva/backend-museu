@@ -17,7 +17,7 @@ create table tb_usuarios(
     id integer not null auto_increment,
     email varchar(255) not null unique,
     senha varchar(255) not null,
-    funcionario_id integer not null,
+    funcionarios_id integer not null,
 
     primary key(id)
 );
@@ -34,6 +34,46 @@ create table tb_funcionarios(
     primary key(id)
 );
 
-alter table tb_usuarios add foreign key(funcionario_id) references tb_funcionarios(id);
+alter table tb_usuarios add foreign key(funcionarios_id) references tb_funcionarios(id);
 alter table tb_funcionarios add foreign key(usuario_id) references tb_usuarios(id);
 
+alter table tb_usuarios modify column funcionarios_id integer null;
+alter table tb_funcionarios modify column usuario_id integer null;
+
+create table tb_ingressos(
+
+    id integer not null auto_increment,
+    compra_online bit not null,
+    data_compra datetime(6) not null,
+    pagamento varchar(100) not null,
+    categoria_id integer not null,
+    funcionarios_id integer,
+
+    primary key(id)
+);
+
+create table tb_categoria_ingressos(
+
+    id integer not null auto_increment,
+    nome varchar(255) not null,
+    preco decimal(10,2) not null,
+    ingresso_id integer,
+    
+    primary key(id)
+);
+
+alter table tb_funcionarios add rua varchar(100);
+alter table tb_funcionarios add numero varchar(100);
+alter table tb_funcionarios add bairro varchar(100);
+alter table tb_funcionarios add cidade varchar(100);
+alter table tb_funcionarios add estado char;
+alter table tb_funcionarios add cep varchar(100);
+
+alter table tb_funcionarios add salario varchar(100);
+
+alter table tb_ingressos add foreign key(categoria_id) references tb_categoria_ingressos(id);
+
+alter table tb_categoria_ingressos add foreign key(ingresso_id) references tb_ingressos(id);
+
+alter table tb_categoria_ingressos modify column preco float(53);
+alter table tb_ingressos modify column data_compra date;

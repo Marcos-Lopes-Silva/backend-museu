@@ -6,20 +6,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.museu.museu.repositories.UserRepository;
-
+import com.museu.museu.repositories.UsuarioRepository;
 
 @Service
-public class AuthenticationService implements UserDetailsService{
+public class AuthenticationService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UsuarioRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Username "+username);
+        System.out.println("Username " + username);
 
         return userRepository.findByEmail(username);
     }
-    
+
 }

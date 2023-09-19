@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -24,15 +23,16 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-        .csrf((csrf) -> csrf.disable())
-        .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, "/login").permitAll().anyRequest().authenticated())
-        
-        .logout((logout) -> logout.logoutUrl("/logout"))
-        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-        .build();
+                .csrf((csrf) -> csrf.disable())
+                .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/funcionarios/**").permitAll()
+                        .anyRequest().authenticated())
+
+                .logout((logout) -> logout.logoutUrl("/logout"))
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
-    
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
