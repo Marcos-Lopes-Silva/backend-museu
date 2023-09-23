@@ -11,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -35,11 +34,10 @@ public class Ingresso {
     private CategoriaIngresso categoria;
     private boolean compra_online;
     private LocalDate data_compra;
-    // @OneToMany
-    // private Funcionario vendedor;
+    @ManyToOne
+    private Funcionario vendedor;
     private String pagamento;
-    // @OneToOne
-    // private Visitante visitante;
+    private String doc_visitante;
 
     public Ingresso(@Valid DadosIngresso dadosIngresso) {
         this.categoria = dadosIngresso.categoria();

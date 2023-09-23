@@ -25,10 +25,7 @@ public class SecurityConfiguration {
         return http
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, "/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/funcionarios/**").permitAll()
-                        .anyRequest().authenticated())
-
-                .logout((logout) -> logout.logoutUrl("/logout"))
+                .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

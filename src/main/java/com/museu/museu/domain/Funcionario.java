@@ -1,12 +1,18 @@
 package com.museu.museu.domain;
 
+import java.util.List;
+
 import com.museu.museu.dto.CadastroFuncionario;
 import com.museu.museu.dto.EditarFuncionario;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -16,6 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "tb_funcionarios")
 public class Funcionario {
 
@@ -26,10 +33,22 @@ public class Funcionario {
     private String cpf;
     private String cargo;
     private String telefone;
+    private double salario;
     private String rg;
     private Endereco endereco;
     @OneToOne
     private Usuario usuario;
+    @OneToMany(mappedBy = "vendedor", cascade= CascadeType.ALL)
+    private List<Ingresso> ingressos;
+
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -109,6 +128,7 @@ public class Funcionario {
         this.nome = f.nome();
         this.cargo = f.cargo();
         this.telefone = f.telefone();
+        
     }
 
 }

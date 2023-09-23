@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -37,7 +38,8 @@ public class Peca {
     private String descricao_peca;
     // private Divisao divisao;
     private String estado_conservacao;
-    // private Sessao sessao;
+    @ManyToOne
+    private Secao secao;
     @Embedded
     private EmprestarPeca emprestarPeca = null;
 

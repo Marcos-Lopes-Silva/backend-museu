@@ -91,7 +91,6 @@ public class FuncionariosController {
         Page<DadosListagemFuncionario> dadosPage = new PageImpl<>(dadosList, paginacao, 0);
 
         return ResponseEntity.ok(dadosPage);
-
     }
 
     @PutMapping("{id}")
@@ -99,9 +98,11 @@ public class FuncionariosController {
     public ResponseEntity<DadosFuncionario> mudarDados(@PathVariable Integer id,
             @RequestBody @Valid EditarFuncionario f) {
 
-        var funcionario = funcionarioRepository.findById(id);
-        funcionario.get().setEdit(f);
+        var updateFuncionario = funcionarioRepository.findById(id);
+        updateFuncionario.get().setEdit(f);
 
-        return null;
+        funcionarioRepository.save(updateFuncionario.get());
+
+        return ResponseEntity.ok(new DadosFuncionario(updateFuncionario.get()));
     }
 }

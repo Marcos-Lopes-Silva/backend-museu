@@ -1,5 +1,5 @@
 package com.museu.museu.domain;
 
-public class Role {
-        
+public enum Role {
+        ADMIN, VENDEDOR
 }
