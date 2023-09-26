@@ -7,6 +7,8 @@ import com.museu.museu.dto.EditarFuncionario;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,15 +33,30 @@ public class Funcionario {
     private Integer id;
     private String nome;
     private String cpf;
-    private String cargo;
     private String telefone;
     private double salario;
     private String rg;
     private Endereco endereco;
     @OneToOne
     private Usuario usuario;
-    @OneToMany(mappedBy = "vendedor", cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL)
     private List<Ingresso> ingressos;
+    private String area_especializacao;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    
+    private boolean demitido = false;
+    
+    @OneToMany(mappedBy = "pesquisador")
+    private List<ViagensPesquisa> viagensPesquisa;
+
+    public String getArea_especializacao() {
+        return area_especializacao;
+    }
+
+    public void setArea_especializacao(String area_especializacao) {
+        this.area_especializacao = area_especializacao;
+    }
 
 
     public double getSalario() {
@@ -82,14 +99,6 @@ public class Funcionario {
         this.cpf = cpf;
     }
 
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -118,17 +127,28 @@ public class Funcionario {
         this.nome = funcionario.nome();
         this.cpf = funcionario.cpf();
         this.telefone = funcionario.telefone();
-        this.cargo = funcionario.cargo();
         this.rg = funcionario.rg();
+        this.salario = funcionario.salario();
         this.endereco = new Endereco(funcionario.rua(), funcionario.numero(), funcionario.bairro(),
                 funcionario.cidade(), funcionario.estado(), funcionario.cep());
+        if(funcionario.role() == Role.PESQUISADOR){
+            this.area_especializacao = funcionario.area_especializacao();
+        }
+        this.role = funcionario.role();
     }
 
     public void setEdit(@Valid EditarFuncionario f) {
         this.nome = f.nome();
-        this.cargo = f.cargo();
         this.telefone = f.telefone();
-        
+
+    }
+
+    public boolean getDemitido(){
+        return this.demitido;
+    }
+
+    public void setDemitido(boolean b) {
+        this.demitido = b;
     }
 
 }

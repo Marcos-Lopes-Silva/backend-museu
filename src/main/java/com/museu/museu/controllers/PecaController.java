@@ -104,7 +104,7 @@ public class PecaController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/d/{id}")
     public ResponseEntity<DadosPeca> detalharPeca(@PathVariable Integer id) {
 
         Optional<Peca> peca = pecaRepository.findById(id);

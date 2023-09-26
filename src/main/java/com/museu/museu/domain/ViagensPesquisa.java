@@ -24,8 +24,6 @@ import lombok.Setter;
 @Getter
 public class ViagensPesquisa {
 
-
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -36,7 +34,7 @@ public class ViagensPesquisa {
     private Date data_inicio;
     private Date data_fim;
     @ManyToOne
-    private Pesquisador pesquisador;
+    private Funcionario pesquisador;
     private String resultados;
 
     public ViagensPesquisa(@Valid DadosCadastroPesquisa dados) {

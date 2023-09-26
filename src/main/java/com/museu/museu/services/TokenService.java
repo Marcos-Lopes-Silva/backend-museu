@@ -14,7 +14,7 @@ import com.museu.museu.domain.Usuario;
 @Service
 public class TokenService {
 
-    @Value("${jwt.secre}")
+    @Value("${JWT.SECRET}")
     private String secret;
 
     public String getToken(Usuario user) {

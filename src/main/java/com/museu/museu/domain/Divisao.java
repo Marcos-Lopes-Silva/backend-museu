@@ -2,6 +2,7 @@ package com.museu.museu.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.museu.museu.dto.DadosDivisao;
 
 import jakarta.persistence.Entity;
@@ -32,6 +33,7 @@ public class Divisao {
     private String predio;
     private String sala;
     @OneToMany(mappedBy = "divisao")
+    @JsonIgnore
     private List<Secao> secao;
 
     public Divisao(@Valid DadosDivisao divisao) {

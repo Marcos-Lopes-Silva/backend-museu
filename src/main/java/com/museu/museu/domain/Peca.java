@@ -5,8 +5,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.museu.museu.dto.NovaPeca;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +24,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tb_pecas")
@@ -36,10 +38,12 @@ public class Peca {
     private String curador;
     private Date data_adquirida;
     private String descricao_peca;
-    // private Divisao divisao;
     private String estado_conservacao;
-    @ManyToOne
+
+    
+    @ManyToOne(cascade = CascadeType.ALL, fetch = jakarta.persistence.FetchType.EAGER)
     private Secao secao;
+
     @Embedded
     private EmprestarPeca emprestarPeca = null;
 
@@ -57,4 +61,43 @@ public class Peca {
         this.descricao_peca = peca.descricao_peca();
         this.estado_conservacao = peca.estado_conservacao();
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public String getCurador() {
+        return curador;
+    }
+
+    public Date getData_adquirida() {
+        return data_adquirida;
+    }
+
+    public String getDescricao_peca() {
+        return descricao_peca;
+    }
+
+    public String getEstado_conservacao() {
+        return estado_conservacao;
+    }
+
+    @JsonIgnore(true)
+    public Secao getSecao() {
+        return secao;
+    }
+
+    public EmprestarPeca getEmprestarPeca() {
+        return emprestarPeca;
+    }
+
+    
 }
