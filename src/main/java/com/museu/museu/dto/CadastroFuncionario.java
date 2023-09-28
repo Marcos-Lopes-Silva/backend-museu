@@ -14,3 +14,4 @@ public record CadastroFuncionario(@NotBlank String nome, @NotBlank @Pattern(rege
                 String area_especializacao, @NotNull double salario) {
 
 }
+
