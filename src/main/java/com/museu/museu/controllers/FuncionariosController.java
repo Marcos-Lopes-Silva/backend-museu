@@ -1,6 +1,7 @@
 package com.museu.museu.controllers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.museu.museu.domain.Funcionario;
+import com.museu.museu.domain.Role;
 import com.museu.museu.domain.Usuario;
 import com.museu.museu.dto.CadastroFuncionario;
 import com.museu.museu.dto.DadosFuncionario;
 import com.museu.museu.dto.DadosListagemFuncionario;
 import com.museu.museu.dto.EditarFuncionario;
 import com.museu.museu.repositories.FuncionarioRepository;
+import com.museu.museu.repositories.RoleRepository;
 import com.museu.museu.repositories.UsuarioRepository;
 
 import jakarta.validation.Valid;
@@ -46,14 +49,19 @@ public class FuncionariosController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @PostMapping("/novo")
     @Transactional
     public ResponseEntity<DadosFuncionario> registrarFuncionario(@Valid @RequestBody CadastroFuncionario funcionario,
             UriComponentsBuilder builder) {
 
         Funcionario novoFuncionario = new Funcionario(funcionario);
-
-        Usuario usuario = new Usuario(funcionario.email(), encoder.encode(funcionario.senha()), novoFuncionario);
+        Collection<Role> role = new ArrayList<>();
+        
+        role.add(roleRepository.findByNome(funcionario.role()));
+        Usuario usuario = new Usuario(funcionario.email(), encoder.encode(funcionario.senha()), novoFuncionario, role);
 
         novoFuncionario.setUsuario(usuario);
 

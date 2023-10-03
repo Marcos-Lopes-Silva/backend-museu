@@ -7,8 +7,6 @@ import com.museu.museu.dto.EditarFuncionario;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,8 +40,6 @@ public class Funcionario {
     @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL)
     private List<Ingresso> ingressos;
     private String area_especializacao;
-    @Enumerated(EnumType.STRING)
-    private Role role;
     
     private boolean demitido = false;
     
@@ -131,10 +127,9 @@ public class Funcionario {
         this.salario = funcionario.salario();
         this.endereco = new Endereco(funcionario.rua(), funcionario.numero(), funcionario.bairro(),
                 funcionario.cidade(), funcionario.estado(), funcionario.cep());
-        if(funcionario.role() == Role.PESQUISADOR){
+        if(funcionario.role() == "PESQUISADOR"){
             this.area_especializacao = funcionario.area_especializacao();
         }
-        this.role = funcionario.role();
     }
 
     public void setEdit(@Valid EditarFuncionario f) {

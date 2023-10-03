@@ -2,7 +2,7 @@ package com.museu.museu.domain;
 
 import java.util.Date;
 
-import com.museu.museu.dto.DadosCadastroPesquisa;
+import com.museu.museu.dto.CadastroViagensPesquisa;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,17 +37,16 @@ public class ViagensPesquisa {
     private Funcionario pesquisador;
     private String resultados;
 
-    public ViagensPesquisa(@Valid DadosCadastroPesquisa dados) {
-        // this.aprovada = false;
-        // this.custos = dados.custos();
-        // this.destino = dados.destino();
-        // this.objetivo = dados.objetivo();
-        // this.resultados = null;
-        // this.data_inicio = dados.data_inicio();
-        // this.data_fim = dados.data_fim();
+    public ViagensPesquisa(@Valid CadastroViagensPesquisa dados) {
+        this.aprovada = false;
+        this.custos = dados.custos();
+        this.destino = dados.destino();
+        this.objetivo = dados.objetivo();
+        this.resultados = null;
+        this.data_inicio = dados.data_inicio();
+        this.data_fim = dados.data_fim();
 
     }
-
     
 
 }
