@@ -14,7 +14,12 @@ function createWindow() {
     maximizable: false,
   });
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, '../src/pages/login/login.html'));
+  mainWindow.loadFile(
+    path.join(
+      __dirname,
+      '../src/pages/funcionario/createFuncionario/createFuncionario.html',
+    ),
+  );
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
