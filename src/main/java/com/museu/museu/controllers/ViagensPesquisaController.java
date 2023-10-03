@@ -53,7 +53,7 @@ public class ViagensPesquisaController {
         // Set the Funcionario for the ViagensPesquisa
         novaViagensPesquisa.setFuncionario(funcionario);
 
-        Integer pesquisador_id;
+        Integer pesquisador_id = 7;
         novaViagensPesquisa.setPesquisadorId(pesquisador_id);
 
         

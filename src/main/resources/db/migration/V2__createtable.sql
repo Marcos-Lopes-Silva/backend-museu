@@ -40,7 +40,7 @@ create table tb_viagens_pesquisa(
     data_fim datetime(6) not null,
     aprovada bit,
     destino varchar(255) not null,
-    pesquisador_id integer not null,
+    funcionario_id integer not null,
     resultados varchar(255),
     objetivo varchar(255) not null,
     custos float not null,
@@ -55,5 +55,5 @@ alter table tb_funcionarios add foreign key(pesquisador_id) references tb_pesqui
 alter table tb_secao add foreign key(pecas_id) references tb_pecas(id);
 alter table tb_secao add foreign key(divisao_id) references tb_divisao(id);
 alter table tb_divisao add foreign key(secao_id) references tb_secao(id);
-alter table tb_viagens_pesquisa add foreign key(pesquisador_id) references tb_pesquisador(id);
+alter table tb_viagens_pesquisa add foreign key(pesquisador_id) references tb_funcionarios(id);
 alter table tb_ingressos add ingresso_id integer;

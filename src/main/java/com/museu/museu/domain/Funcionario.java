@@ -51,7 +51,7 @@ public class Funcionario {
     
     @OneToMany(mappedBy = "pesquisador")
     @JsonIgnore
-    private List<ViagensPesquisa> viagensPesquisa;
+    
 
     public String getArea_especializacao() {
         return area_especializacao;
