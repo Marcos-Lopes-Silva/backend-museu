@@ -2,6 +2,7 @@ package com.museu.museu.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.museu.museu.dto.CadastroFuncionario;
 import com.museu.museu.dto.EditarFuncionario;
 
@@ -40,6 +41,7 @@ public class Funcionario {
     @OneToOne
     private Usuario usuario;
     @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Ingresso> ingressos;
     private String area_especializacao;
     @Enumerated(EnumType.STRING)
@@ -48,6 +50,7 @@ public class Funcionario {
     private boolean demitido = false;
     
     @OneToMany(mappedBy = "pesquisador")
+    @JsonIgnore
     private List<ViagensPesquisa> viagensPesquisa;
 
     public String getArea_especializacao() {

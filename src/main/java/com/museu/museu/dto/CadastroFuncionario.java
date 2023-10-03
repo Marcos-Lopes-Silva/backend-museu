@@ -13,5 +13,9 @@ public record CadastroFuncionario(@NotBlank String nome, @NotBlank @Pattern(rege
                 String rua, String numero, String bairro, String cidade, String estado, String cep, @NotNull Role role,
                 String area_especializacao, @NotNull double salario) {
 
+    public static Integer getId() {
+        return null;
+    }
+
 }
 
