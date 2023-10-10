@@ -17,7 +17,7 @@ function createWindow() {
   mainWindow.loadFile(
     path.join(
       __dirname,
-      '../src/pages/funcionario/createFuncionario/createFuncionario.html',
+      '../src/pages/funcionario/listFuncionario/listFuncionario.html',
     ),
   );
 

@@ -1,6 +1,8 @@
 import { IpcRenderer, ipcRenderer } from 'electron';
 import * as path from 'path';
 
+import Swal from 'sweetalert2';
+
 const conteudo = document.getElementById('conteudo');
 
 const inputUsernameElement = document.querySelector(
@@ -54,8 +56,10 @@ submitButton.addEventListener('click', async (e) => {
   })
     .then((data) => {
       localStorage.setItem('token', data.token);
-      alert('Login realizado com sucesso');
-      ipcRenderer.send('trocar-conteudo', '../src/pages/home/home.html');
+      exibirSweetAlert();
+
+      // alert('Login realizado com sucesso');
+      // ipcRenderer.send('trocar-conteudo', '../src/pages/home/home.html');
       // ipcRenderer.on('conteudo-trocado', (event, novoConteudo) => {
       //   conteudo.innerHTML = novoConteudo;
       // });
@@ -80,4 +84,25 @@ async function postData(url = '', data = {}) {
     body: JSON.stringify(data),
   });
   return response.json();
+}
+
+async function exibirSweetAlert() {
+  await Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: 'Login realizado com sucesso',
+    showConfirmButton: false,
+    timer: 1600,
+    heightAuto: false,
+  });
+
+  await Swal.close();
+
+  ipcRenderer.send(
+    'trocar-conteudo',
+    '../src/pages/funcionario/createFuncionario/createFuncionario.html',
+  );
+  ipcRenderer.on('conteudo-trocado', (event, novoConteudo) => {
+    conteudo.innerHTML = novoConteudo;
+  });
 }
