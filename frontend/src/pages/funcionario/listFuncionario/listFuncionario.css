@@ -91,6 +91,11 @@ body, html {
     color: white;
     border: 0;
     border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-adc-funcionario:active {
+    background-color: #5c66c1;
 }
 
 .list-funcionarios {
@@ -130,11 +135,18 @@ body, html {
     flex-direction: column;
     /* padding: 25px; */
     gap: 1.0rem;
+    font-size: smaller;
 }
 
 .name-funcionario {
     font-family: 'Inter', sans-serif; 
     font-weight: bold;
+    font-size: x-large;
+}
+
+#img-endereco {
+    height: 11.5px;
+    width: 11.5px;
 }
 
 .data-funcionario {
@@ -161,6 +173,11 @@ body, html {
     border-radius: 3px;
     width: -webkit-fill-available;
     padding: 1rem;
+    cursor: pointer;
+}
+
+.btn-editar:active {
+    background-color: #5c66c1;
 }
 
 .horizontal-bar {

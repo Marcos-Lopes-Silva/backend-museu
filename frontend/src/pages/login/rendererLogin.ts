@@ -100,7 +100,7 @@ async function exibirSweetAlert() {
 
   ipcRenderer.send(
     'trocar-conteudo',
-    '../src/pages/funcionario/createFuncionario/createFuncionario.html',
+    '../src/pages/funcionario/listFuncionario/listFuncionario.html',
   );
   ipcRenderer.on('conteudo-trocado', (event, novoConteudo) => {
     conteudo.innerHTML = novoConteudo;
