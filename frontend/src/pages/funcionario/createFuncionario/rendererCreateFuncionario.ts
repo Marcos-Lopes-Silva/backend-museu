@@ -1,9 +1,8 @@
-import { IpcRenderer, ipcRenderer } from 'electron';
-import * as path from 'path';
+// import { ipcRenderer } from 'electron';
 
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
-// const Swal = require('sweetalert2');
+const Swal = require('sweetalert2');
 
 const conteudo = document.getElementById('conteudo');
 
@@ -47,6 +46,11 @@ const inputFuncionarioCEP = document.querySelector('#cep') as HTMLSelectElement;
 const submitButton = document.querySelector('#submit');
 
 const errorMessage = document.querySelector('#msg') as HTMLDivElement;
+
+// const btnCancelar = document.querySelector('#cancel-btn');
+// btnCancelar.addEventListener('click', () => {
+//   ipcRenderer.send('fechar-modal');
+// });
 
 submitButton.addEventListener('click', async (e) => {
   e.preventDefault();

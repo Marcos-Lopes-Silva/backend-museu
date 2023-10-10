@@ -11,47 +11,88 @@
     <title>Museu Pampa</title>
 </head>
 <body>
-    <div class = "box">
+    <div class="box">
         <div class="create-area"> 
             <div class="create-area-content">
                 <h1 class="title">
                     Cadastrar Funcionário
                 </h1>
                 <div id="msg"></div>
-                <input type="text" class="input-text" id="name" name="name" placeholder="Nome Completo">
-                <div class="div-content">
-                    <input class="input-text" type="text" id="email" name="email" placeholder="Email">
-                    <input class="input-text" type="text" id="senha" name="senha" placeholder="Senha">
+                <div class="input-container">
+                    <input type="text" class="input-text" id="name" name="name" required>
+                    <label for="name" class="input-label">Nome Completo</label>
                 </div>
                 <div class="div-content">
-                    <input class="input-text" type="text" class="input-text" id="cpf" name="cpf"
-                    placeholder="CPF" maxlength="11">
-                    <input class="input-text" type="text" class="input-text" id="rg"
-                    name="rg" placeholder="RG" maxlength="10">
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="email" name="email" required>
+                        <label for="email" class="input-label">Email</label>
+                    </div>
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="senha" name="senha" required>
+                        <label for="senha" class="input-label">Senha</label>
+                    </div>
                 </div>
                 <div class="div-content">
-                    <input class="input-text" type="text" id="telefone" name="telefone" placeholder="Telefone" maxlength="11">
-                    <input class="input-text" type="text" id="salario" name="salario" placeholder="Salário">
-                </div>
-                <input type="text" class="input-text" id="cargo" name="cargo" placeholder="Cargo">
-                <div class="div-content">
-                    <input class="input-text" type="text" id="rua" name="rua" placeholder="Endereço">
-                    <input class="input-text" type="text" id="bairro" name="bairro" placeholder="Bairro">
-                </div>
-                <div class="div-content">
-                    <input class="input-text" type="text" id="numero" name="numero" placeholder="Número">
-                    <input class="input-text" type="text" id="cidade" name="cidade" placeholder="Cidade">
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="cpf" name="cpf" maxlength="11" required>
+                        <label for="cpf" class="input-label">CPF</label>
+                    </div>
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="rg" name="rg" maxlength="10" required>
+                        <label for="rg" class="input-label">RG</label>
+                    </div>
                 </div>
                 <div class="div-content">
-                    <input class="input-text" type="text" id="estado" name="estado" placeholder="Estado">
-                    <input class="input-text" type="text" id="cep" name="cep" placeholder="CEP">
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="telefone" name="telefone" maxlength="11" required>
+                        <label for="telefone" class="input-label">Telefone</label>
+                    </div>
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="salario" name="salario" required>
+                        <label for="salario" class="input-label">Salário</label>
+                    </div>
                 </div>
-
-                <input type="submit" class="input-submit" id="submit" value="Cadastrar">
+                <div class="input-container">
+                    <input class="input-text" type="text" id="cargo" name="cargo" required>
+                    <label for="cargo" class="input-label">Cargo</label>
+                </div>
+                <div class="div-content">
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="rua" name="rua" required>
+                        <label for="rua" class="input-label">Endereço</label>
+                    </div>
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="bairro" name="bairro" required>
+                        <label for="bairro" class="input-label">Bairro</label>
+                    </div>
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="numero" name="numero" required>
+                        <label for="numero" class="input-label">Número</label>
+                    </div>
+                    
+                </div>
+                <div class="div-content">
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="cidade" name="cidade" required>
+                        <label for="cidade" class="input-label">Cidade</label>
+                    </div>
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="estado" name="estado" required>
+                        <label for="estado" class="input-label">Estado</label>
+                    </div>
+                    <div class="input-container">
+                        <input class="input-text" type="text" id="cep" name="cep" required>
+                        <label for="cep" class="input-label">CEP</label>
+                    </div>
+                </div>
+                <div class="btns">
+                    <button class="cancel-btn">Cancelar</button>
+                    <input type="submit" class="input-submit" id="submit" value="Cadastrar">
+                </div>
+                
             </div>
         </div>
         <div class="background-area">
-            </div>
         </div>
     </div>
     <script> var exports = {};</script>
