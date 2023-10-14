@@ -25,7 +25,19 @@ public class SecurityConfiguration {
         return http
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .anyRequest().authenticated())
+                        // .requestMatchers("/**").hasAuthority("ADMIN")
+                        // .requestMatchers(HttpMethod.POST, "/viagenspesquisa/cadastrar/**")
+                        // .hasAnyAuthority("PESQUISADOR", "ADMIN", "GERENTE")
+                        // .requestMatchers(HttpMethod.GET,
+                        // "/viagenspesquisa/**").hasAuthority("PESQUISADOR")
+                        // .requestMatchers(HttpMethod.PUT,
+                        // "/viagenspesquisa/aprovar").hasAnyAuthority("ADMIN", "GERENTE")
+                        // .requestMatchers("/pecas**").hasAnyAuthority("ADMIN", "GERENTE",
+                        // "PESQUISADOR")
+                        .requestMatchers("/roles/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/funcionarios/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/visitante/**").permitAll()
+                        .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
@@ -38,6 +50,5 @@ public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-        
     }
 }
