@@ -42,6 +42,10 @@ function createWindow() {
       modalWindow.close();
     }
   });
+
+  ipcMain.on('teste', async () => {
+    print();
+  });
 }
 
 // This method will be called when Electron has finished
@@ -80,6 +84,7 @@ function createModalWindow(filePath: string) {
     modal: true,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
     },
   });
 
@@ -88,4 +93,8 @@ function createModalWindow(filePath: string) {
   modalWindow.on('closed', () => {
     // Realize ações quando o modal for fechado, se necessário
   });
+}
+
+function print() {
+  console.log('oi');
 }

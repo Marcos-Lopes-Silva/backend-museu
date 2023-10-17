@@ -1,8 +1,8 @@
-// import { ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
 
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
-const Swal = require('sweetalert2');
+// const Swal = require('sweetalert2');
 
 const conteudo = document.getElementById('conteudo');
 
@@ -51,6 +51,8 @@ const errorMessage = document.querySelector('#msg') as HTMLDivElement;
 // btnCancelar.addEventListener('click', () => {
 //   ipcRenderer.send('fechar-modal');
 // });
+
+print2();
 
 submitButton.addEventListener('click', async (e) => {
   e.preventDefault();
@@ -172,4 +174,8 @@ async function exibirSweetAlert() {
   ipcRenderer.on('conteudo-trocado', (event, novoConteudo) => {
     conteudo.innerHTML = novoConteudo;
   });
+}
+
+function print2() {
+  ipcRenderer.send('teste');
 }

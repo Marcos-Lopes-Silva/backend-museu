@@ -4,31 +4,7 @@ const path = require('path');
 const btnAdicionarFuncionario = document.querySelector('#btn-adc-funcionario');
 btnAdicionarFuncionario.addEventListener('click', () => {
   openModal(
-    'C:' +
-      '\\' +
-      'Users' +
-      '\\' +
-      'lucas' +
-      '\\' +
-      'OneDrive' +
-      '\\' +
-      'Área de Trabalho' +
-      '\\' +
-      'Git Lucas RPIV' +
-      '\\' +
-      'Sistema-de-Controle-de-Museu' +
-      '\\' +
-      'frontend' +
-      '\\' +
-      'src' +
-      '\\' +
-      'pages' +
-      '\\' +
-      'funcionario' +
-      '\\' +
-      'createFuncionario' +
-      '\\' +
-      'createFuncionario.html',
+    path.resolve(__dirname, '../createFuncionario/createFuncionario.html'),
   );
 });
 
