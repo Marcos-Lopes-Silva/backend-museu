@@ -35,7 +35,7 @@ public class Ingresso {
     private boolean compra_online;
     private LocalDate data_compra;
     @ManyToOne
-    private Funcionario vendedor;
+    private Vendedor vendedor;
     private String pagamento;
     private String doc_visitante;
 

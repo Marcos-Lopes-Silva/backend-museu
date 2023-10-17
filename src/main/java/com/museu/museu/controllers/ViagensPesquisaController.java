@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.museu.museu.domain.ViagensPesquisa;
 import com.museu.museu.dto.CadastroViagensPesquisa;
 import com.museu.museu.dto.DadosViagensPesquisa;
-import com.museu.museu.repositories.FuncionarioRepository;
+import com.museu.museu.repositories.PesquisadorRepository;
 import com.museu.museu.repositories.ViagensPesquisaRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,18 +27,18 @@ public class ViagensPesquisaController {
     private ViagensPesquisaRepository viagensPesquisaRepository;
 
     @Autowired
-    private FuncionarioRepository funcionarioRepository;
+    private PesquisadorRepository pesquisadorRepository;
 
     @PostMapping("/cadastrar/{id}")
     @Transactional
     public ResponseEntity<DadosViagensPesquisa> novaViagemPesquisa(@Valid @RequestBody CadastroViagensPesquisa viagem,
             @PathVariable Integer id) {
 
-        if (funcionarioRepository.existsById(id)) {
-            var f = funcionarioRepository.findById(id);
-            
+        if (pesquisadorRepository.existsById(id)) {
+            var p = pesquisadorRepository.findById(id);
+
             var viagens = new ViagensPesquisa(viagem);
-            viagens.setPesquisador(f.get());
+            viagens.setPesquisador(p.get());
             viagensPesquisaRepository.save(viagens);
 
             return ResponseEntity.ok().build();
@@ -50,7 +50,8 @@ public class ViagensPesquisaController {
 
     @PutMapping("/aprovar/{id}")
     @Transactional
-    public ResponseEntity<DadosViagensPesquisa> aprovarViagemPesquisa(@PathVariable Integer id, HttpServletRequest request) {
+    public ResponseEntity<DadosViagensPesquisa> aprovarViagemPesquisa(@PathVariable Integer id,
+            HttpServletRequest request) {
 
         if (viagensPesquisaRepository.existsById(id)) {
             var viagem = viagensPesquisaRepository.findById(id);

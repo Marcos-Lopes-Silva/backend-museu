@@ -34,7 +34,7 @@ public class ViagensPesquisa {
     private Date data_inicio;
     private Date data_fim;
     @ManyToOne
-    private Funcionario pesquisador;
+    private Pesquisador pesquisador;
     private String resultados;
 
     public ViagensPesquisa(@Valid CadastroViagensPesquisa dados) {
@@ -47,6 +47,5 @@ public class ViagensPesquisa {
         this.data_fim = dados.data_fim();
 
     }
-    
 
 }

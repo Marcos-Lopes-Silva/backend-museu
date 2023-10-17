@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.museu.museu.domain.Funcionario;
+import com.museu.museu.domain.Pesquisador;
 import com.museu.museu.domain.Role;
 import com.museu.museu.domain.Usuario;
 import com.museu.museu.dto.CadastroFuncionario;
@@ -57,9 +58,9 @@ public class FuncionariosController {
     public ResponseEntity<DadosFuncionario> registrarFuncionario(@Valid @RequestBody CadastroFuncionario funcionario,
             UriComponentsBuilder builder) {
 
-        Funcionario novoFuncionario = new Funcionario(funcionario);
+        Funcionario novoFuncionario = new Pesquisador(funcionario);
         Collection<Role> role = new ArrayList<>();
-        
+
         role.add(roleRepository.findByNome(funcionario.role()));
         Usuario usuario = new Usuario(funcionario.email(), encoder.encode(funcionario.senha()), novoFuncionario, role);
 
@@ -120,7 +121,7 @@ public class FuncionariosController {
     public ResponseEntity<String> demitirFuncionario(@PathVariable Integer id) {
 
         Optional<Funcionario> f = funcionarioRepository.findById(id);
-        
+
         f.get().setDemitido(true);
 
         return ResponseEntity.noContent().build();
