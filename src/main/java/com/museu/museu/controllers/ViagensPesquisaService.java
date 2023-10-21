@@ -1,6 +1,10 @@
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import com.museu.museu.domain.ViagensPesquisa;
+import com.museu.museu.repositories.ViagensPesquisaRepository;
 
 @Service
 public class ViagensPesquisaService {
