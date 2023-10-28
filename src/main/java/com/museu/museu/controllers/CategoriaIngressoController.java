@@ -3,6 +3,8 @@ package com.museu.museu.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,4 +31,16 @@ public class CategoriaIngressoController {
         return ResponseEntity.ok(new DadosCategoriaIngresso(novaCategoriaIngresso));
       
 }
+ @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity<String> deleteCategoriaIngresso(@PathVariable Long id) {
+    
+        Optional<CategoriaIngresso> optionalCategoriaIngresso = categoriaIngressoRepository.findById(id);
+
+        if (optionalCategoriaIngresso.isPresent()) {
+            categoriaIngressoRepository.delete(optionalCategoriaIngresso.get());
+            return ResponseEntity.ok("Categoria de Ingresso deletada.");
+        } else {
+            
+            return ResponseEntity.notFound().build();
 }
