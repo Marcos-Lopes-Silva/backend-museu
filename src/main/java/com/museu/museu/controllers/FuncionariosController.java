@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.museu.museu.domain.FactoryFuncionario;
 import com.museu.museu.domain.Funcionario;
-import com.museu.museu.domain.Pesquisador;
 import com.museu.museu.domain.Role;
 import com.museu.museu.domain.Usuario;
 import com.museu.museu.dto.CadastroFuncionario;
@@ -58,7 +58,8 @@ public class FuncionariosController {
     public ResponseEntity<DadosFuncionario> registrarFuncionario(@Valid @RequestBody CadastroFuncionario funcionario,
             UriComponentsBuilder builder) {
 
-        Funcionario novoFuncionario = new Pesquisador(funcionario);
+        FactoryFuncionario f = new FactoryFuncionario();
+        Funcionario novoFuncionario = f.getFuncionario(funcionario);
         Collection<Role> role = new ArrayList<>();
 
         role.add(roleRepository.findByNome(funcionario.role()));

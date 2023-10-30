@@ -3,6 +3,7 @@ package com.museu.museu.domain;
 import com.museu.museu.dto.CadastroFuncionario;
 import com.museu.museu.dto.EditarFuncionario;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,10 +33,12 @@ public abstract class Funcionario {
     private String nome;
     private String cpf;
     private String telefone;
-    private double salario;
     private String rg;
-    private Endereco endereco;
+    private double salario;
     private boolean demitido = false;
+    
+    @Embedded
+    private Endereco endereco;
     @OneToOne
     private Usuario usuario;
 

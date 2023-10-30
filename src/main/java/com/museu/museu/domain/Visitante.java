@@ -1,5 +1,11 @@
 package com.museu.museu.domain;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,5 +31,20 @@ public class Visitante {
     public Visitante(String cpf, String docStorage) {
         this.cpf = cpf;
         this.docStorage = docStorage;
+    }
+
+    public String saveDoc(String diretorio, MultipartFile arquivo){
+        Path diretorioPath = Paths.get("C:\\Usuários\\Marco\\tmp\\", diretorio);
+        Path arquivoPath = diretorioPath.resolve(arquivo.getOriginalFilename());
+
+        try {
+            Files.createDirectories(diretorioPath);
+            arquivo.transferTo(arquivoPath.toFile());
+
+            return arquivoPath.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

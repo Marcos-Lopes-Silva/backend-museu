@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -35,6 +36,9 @@ public class Divisao {
     @OneToMany(mappedBy = "divisao")
     @JsonIgnore
     private List<Secao> secao;
+
+    @ManyToOne
+    private Gerente gerente;
 
     public Divisao(@Valid DadosDivisao divisao) {
         this.nome = divisao.nome();
