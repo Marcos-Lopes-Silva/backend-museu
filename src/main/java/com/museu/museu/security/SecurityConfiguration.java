@@ -25,6 +25,7 @@ public class SecurityConfiguration {
         return http
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, "/login").permitAll()
+<<<<<<< Updated upstream
                         // .requestMatchers("/**").hasAuthority("ADMIN")
                         // .requestMatchers(HttpMethod.POST, "/viagenspesquisa/cadastrar/**")
                         // .hasAnyAuthority("PESQUISADOR", "ADMIN", "GERENTE")
@@ -38,6 +39,11 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/funcionarios/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/visitante/**").permitAll()
                         .anyRequest().authenticated())
+=======
+                .requestMatchers(HttpMethod.POST, "/funcionarios/novo").permitAll()
+                .requestMatchers(HttpMethod.POST, "/categoria/nova").permitAll()
+                .anyRequest().authenticated())
+>>>>>>> Stashed changes
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

@@ -3,13 +3,13 @@ package com.museu.museu.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.museu.museu.dto.DadosCategoriaIngresso;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -29,10 +29,12 @@ public class CategoriaIngresso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    // private String vendas;
     private double preco;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "ingresso_id")
-    private List<Ingresso> ingresso = new ArrayList<>();
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+    private List<Ingresso> ingressos = new ArrayList<>();
 
+    public CategoriaIngresso(DadosCategoriaIngresso dadosCategoriaIngresso) {
+        this.nome = dadosCategoriaIngresso.nome();
+        this.preco = dadosCategoriaIngresso.preco();
+    }
 }
