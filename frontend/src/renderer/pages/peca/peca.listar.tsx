@@ -1,5 +1,5 @@
 import TopBar from '../../components/TopBar';
 
-export default function ListarSecao() {
+export default function ListarPecas() {
   return <TopBar />;
 }

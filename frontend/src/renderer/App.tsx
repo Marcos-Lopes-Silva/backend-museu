@@ -15,13 +15,16 @@ import CadastrarFuncionario from './pages/funcionario/funcionario.cadastrar';
 import CadastrarDivisao from './pages/divisao/divisao.cadastrar';
 import ListarDivisao from './pages/divisao/divisao.listar';
 import CadastrarSecao from './pages/secao/secao.cadastrar';
+import ListarSecao from './pages/secao/secao.listar';
+import ListarPecas from './pages/peca/peca.listar';
+import CadastrarPeca from './pages/peca/peca.cadastrar';
 
 export default function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<CadastrarSecao />} />
+          <Route path="/" element={<CadastrarPeca />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/funcionarios" element={<ListarFuncionario />} />
@@ -35,8 +38,10 @@ export default function App() {
           />
           <Route path="/divisao" element={<ListarDivisao />} />
           <Route path="/divisao/cadastrar" element={<CadastrarDivisao />} />
-          <Route path="/secao" element={<ListarDivisao />} />
+          <Route path="/secao" element={<ListarSecao />} />
           <Route path="/secao/cadastrar" element={<CadastrarSecao />} />
+          <Route path="/pecas" element={<ListarPecas />} />
+          <Route path="/pecas/cadastrar" element={<CadastrarPeca />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </Router>

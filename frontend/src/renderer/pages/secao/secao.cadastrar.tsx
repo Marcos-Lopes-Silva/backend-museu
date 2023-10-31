@@ -90,7 +90,7 @@ export default function CadastrarSecao() {
                 <input
                   type="text"
                   className="input-text"
-                  name="predio"
+                  name="descricao"
                   value={secao.descricao}
                   onChange={(e) => handleChange('descricao', e.target.value)}
                   required
@@ -103,7 +103,7 @@ export default function CadastrarSecao() {
                 <input
                   type="text"
                   className="input-text"
-                  name="sala"
+                  name="divisaoId"
                   value={secao.divisaoId}
                   onChange={(e) => handleChange('divisaoId', e.target.value)}
                   required
