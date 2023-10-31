@@ -12,7 +12,6 @@ import com.museu.museu.domain.Ingresso;
 import com.museu.museu.domain.Usuario;
 import com.museu.museu.dto.DadosIngresso;
 import com.museu.museu.repositories.FuncionarioRepository;
-// import com.museu.museu.repositories.FuncionariosRepository;
 import com.museu.museu.repositories.IngressoRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

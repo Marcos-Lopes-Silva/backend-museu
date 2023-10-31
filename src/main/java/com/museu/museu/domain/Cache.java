@@ -7,7 +7,7 @@ public class Cache {
 
     private Map<String, Object> map;
     private String mostOldKey;
-    private static final int MAX_SIZE = 200;
+    private static final int MAX_SIZE = 10;
     private static final int MIN_SIZE = 0;
     private static Cache instance;
 
@@ -15,13 +15,9 @@ public class Cache {
         this.map = new LinkedHashMap<>(MAX_SIZE, 0.75f, true);
     }
 
-    public static Cache getInstance() {
+    public static synchronized Cache getInstance() {
         if (instance == null) {
-            synchronized (Cache.class) {
-                if (instance == null) {
-                    instance = new Cache();
-                }
-            }
+            instance = new Cache();
         }
         return instance;
     }
@@ -40,13 +36,17 @@ public class Cache {
             mostOldKey = key;
         }
 
-        if (map.size() > MAX_SIZE) {
+        if (map.size() == MAX_SIZE) {
             map.remove(mostOldKey);
             mostOldKey = map.entrySet().iterator().next().getKey();
             map.put(key, value);
         } else {
             map.put(key, value);
         }
+    }
+
+    public void remove(String key) {
+        map.remove(key);
     }
 
     public void imprime() {
