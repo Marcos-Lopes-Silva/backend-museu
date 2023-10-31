@@ -3,6 +3,7 @@ import './funcionarioComponent.style.css';
 import iconCargo from 'assets/icons/cargo.png';
 import iconTelefone from 'assets/icons/telefone.png';
 import iconEndereco from 'assets/icons/endereco.png';
+import { Link } from 'react-router-dom';
 
 type FuncionarioComponentProps = {
   funcionario: Funcionario;
@@ -36,7 +37,9 @@ function FuncionarioComponent({ funcionario }: FuncionarioComponentProps) {
           <hr />
         </div>
         <div>
-          <button className="btn-editar">Editar informações</button>
+          <Link to={`/funcionarios/${funcionario.id}/editar`}>
+            <button className="btn-editar">Editar informações</button>
+          </Link>
         </div>
       </div>
     </div>

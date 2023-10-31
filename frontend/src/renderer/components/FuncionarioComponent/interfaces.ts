@@ -4,10 +4,11 @@ interface Endereco {
   cep: string;
   cidade: string;
   estado: string;
-  numero: number;
+  numero: string;
 }
 
 interface Funcionario {
+  id: string;
   nome: string;
   email: string;
   senha: string;
