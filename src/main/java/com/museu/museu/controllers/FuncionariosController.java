@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.museu.museu.domain.Cache;
 import com.museu.museu.domain.FactoryFuncionario;
 import com.museu.museu.domain.Funcionario;
 import com.museu.museu.domain.Role;
@@ -40,6 +41,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/funcionarios")
 @RestController
 public class FuncionariosController {
+
+    // @Autowired
+    // private Cache cache;
+
+    private Cache cache = Cache.getInstance();
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
@@ -77,12 +83,20 @@ public class FuncionariosController {
 
     @GetMapping("{id}")
     public ResponseEntity<DadosFuncionario> infoFuncionario(@PathVariable Integer id) {
+        cache.imprime();
+        Funcionario cachedfuncionario = (Funcionario) cache.get("funcionario" + id);
+
+        if(cachedfuncionario != null){
+            return ResponseEntity.ok(new DadosFuncionario(cachedfuncionario));
+        }
+
         var funcionario = funcionarioRepository.findById(id);
 
         if (funcionario.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
+        cache.put("funcionario" + id, funcionario.get());
         return ResponseEntity.ok(new DadosFuncionario(funcionario.get()));
     }
 

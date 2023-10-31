@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.museu.museu.domain.Cache;
 import com.museu.museu.domain.Secao;
 import com.museu.museu.dto.CadastroSecao;
 import com.museu.museu.dto.DadosListagemSecao;
@@ -34,6 +35,11 @@ import jakarta.validation.Valid;
 @RestController
 public class SecaoController {
 
+    // @Autowired
+    // private Cache cache;
+
+    private Cache cache = Cache.getInstance();
+
     @Autowired
     private SecaoRepository secaoRepository;
 
@@ -42,21 +48,23 @@ public class SecaoController {
 
     @Transactional
     @PostMapping("/nova")
-    public ResponseEntity<DadosSecao> novaSecao(@Valid @RequestBody CadastroSecao cadastroSecao, UriComponentsBuilder builder, HttpServletRequest request) {
+    public ResponseEntity<DadosSecao> novaSecao(@Valid @RequestBody CadastroSecao cadastroSecao,
+            UriComponentsBuilder builder, HttpServletRequest request) {
         var divisao = divisaoRepository.findById(cadastroSecao.divisaoId());
         var secao = new Secao(cadastroSecao);
+
         secao.setDivisao(divisao.get());
+
         secaoRepository.save(secao);
 
         var uri = builder.path("/secao/{id}").buildAndExpand(secao.getId()).toUri();
-
 
         return ResponseEntity.created(uri).body(new DadosSecao(secao));
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemSecao>> listarSecao(@PageableDefault(size = 10, sort = "nome") Pageable paginacao){
-
+    public ResponseEntity<Page<DadosListagemSecao>> listarSecao(
+            @PageableDefault(size = 10, sort = "nome") Pageable paginacao) {
 
         Page<Secao> lista = secaoRepository.findAll(paginacao);
 
@@ -74,15 +82,27 @@ public class SecaoController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<DadosSecao> detalharSecao(@PathVariable Integer id){
+    public ResponseEntity<DadosSecao> detalharSecao(@PathVariable Integer id) {
 
-        var secao = secaoRepository.findById(id).get();
+        Secao cachedSecao = (Secao) cache.get("secao" + id);
 
-        return ResponseEntity.ok(new DadosSecao(secao));
+        if (cachedSecao != null) {
+            return ResponseEntity.ok(new DadosSecao(cachedSecao));
+        } else {
+            var secao = secaoRepository.findById(id);
+            if(secao.isPresent()) {
+                cache.put("secao" + id, secao.get());
+                return ResponseEntity.ok(new DadosSecao(secao.get())); 
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+              
+        }
+
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deletarSecao(@PathVariable Integer id){
+    public ResponseEntity<String> deletarSecao(@PathVariable Integer id) {
 
         secaoRepository.deleteById(id);
 

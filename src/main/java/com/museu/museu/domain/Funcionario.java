@@ -42,7 +42,7 @@ public abstract class Funcionario {
     @OneToOne
     private Usuario usuario;
 
-    public Funcionario(@Valid CadastroFuncionario funcionario) {
+    protected Funcionario(@Valid CadastroFuncionario funcionario) {
         this.nome = funcionario.nome();
         this.cpf = funcionario.cpf();
         this.telefone = funcionario.telefone();
