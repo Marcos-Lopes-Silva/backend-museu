@@ -17,4 +17,12 @@ interface Funcionario {
   cargo: string;
   role: string;
   endereco: Endereco;
+  demitido: string;
+}
+
+interface Secao {
+  id: String;
+  nome: string;
+  descricao: string;
+  idDivisao: string;
 }

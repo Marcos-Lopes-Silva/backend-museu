@@ -1,5 +1,37 @@
+import { useEffect, useState } from 'react';
 import TopBar from '../../components/TopBar';
+import { api } from '../../api/api';
+import { useNavigate } from 'react-router-dom';
+import ListComponent from '../../components/List';
 
 export default function ListarSecao() {
-  return <TopBar />;
+  const [data, setData] = useState<{ content: Secao[] }>({ content: [] });
+
+  const navegar = useNavigate();
+
+  useEffect(() => {
+    // Faz uma chamada para a API para obter dados de funcionários
+    api
+      .get('/secao')
+      .then((response) => {
+        // Atualiza o estado com os dados recebidos da API
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar dados:', error);
+      });
+  }, []);
+
+  return (
+    <div>
+      <TopBar />
+
+      <div id="funcionarios" className="list-funcionarios">
+        {data.content.map((secao, index) => (
+          // Renderiza o componente FuncionarioComponent para cada funcionário
+          <ListComponent key={index} secao={secao} />
+        ))}
+      </div>
+    </div>
+  );
 }

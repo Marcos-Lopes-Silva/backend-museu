@@ -21,7 +21,7 @@ export default function Login() {
   const navegar = useNavigate();
 
   const [usuario, setUsuario] = useState<TipoLogin>({
-    login: 'pesquisador@admin.com',
+    login: 'pesquisador26@admin.com',
     senha: '123456',
   });
 

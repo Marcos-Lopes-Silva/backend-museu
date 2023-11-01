@@ -43,7 +43,7 @@ export default function CadastrarSecao() {
           'Todos os dados preenchidos foram descartados.',
           'success',
         );
-        navegar('/divisao');
+        navegar('/secao');
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });

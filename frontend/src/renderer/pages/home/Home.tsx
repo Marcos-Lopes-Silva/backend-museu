@@ -1,5 +1,29 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/ButtonPassword';
+
+interface IRota {
+  label: string;
+  to: string;
+}
+
+const rotas = [
+  {
+    label: 'Funcionarios',
+    to: '/funcionarios',
+  },
+  {
+    label: 'Secoes',
+    to: '/secao/cadastrar',
+  },
+  {
+    label: 'Cadastrar Divisao',
+    to: '/divisao/cadastrar',
+  },
+  {
+    label: 'Cadastrar Peca',
+    to: '/pecas/cadastrar',
+  },
+];
 
 export default function Home() {
   const navegar = useNavigate();
@@ -18,7 +42,15 @@ export default function Home() {
             <Button onClick={handleClick}>Deslogar</Button>
           </div>
         </div>
-        <div className="w-full h-screen bg-blue-700"></div>
+        <div className="w-full h-screen bg-blue-700">
+          <ul>
+            {rotas.map((rota: IRota, index: number) => (
+              <li key={index}>
+                <Link to={rota.to}>{rota.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
