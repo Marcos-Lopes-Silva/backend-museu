@@ -55,20 +55,6 @@ public class IngressosController {
         return null;
     }
  
-    @DeleteMapping("/delete/{id}")
-    @Transactional
-    public ResponseEntity<String> deleteIngresso(@PathVariable Long id) {
-    
-        Optional<Ingresso> optionalIngresso = ingressoRepository.findById(id);
-
-        if (optionalIngresso.isPresent()) {
-       
-            ingressoRepository.delete(optionalIngresso.get());
-            return ResponseEntity.ok("Pessoa saiu do Museu");
-        } else {
-           
-            return ResponseEntity.notFound().build();
- 
     private int getCurrentCapacity() {
         int currentCapacity = (int) ingressoRepository.count();
         return currentCapacity;

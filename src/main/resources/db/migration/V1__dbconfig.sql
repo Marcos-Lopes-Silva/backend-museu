@@ -70,6 +70,12 @@ create table tb_categoria_ingressos(
     primary key(id)
 );
 
+creeate table tb_camera (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    modelo VARCHAR(255),
+    marca VARCHAR(255),
+    resolucao VARCHAR(255)
+);
 
 
 
@@ -79,3 +85,5 @@ alter table tb_ingressos add foreign key(categoria_id) references tb_categoria_i
 alter table tb_categoria_ingressos add foreign key(ingresso_id) references tb_ingressos(id);
 
 alter table tb_ingressos modify column data_compra date;
+
+INSERT INTO camera (modelo, marca, resolucao) VALUES ('Modelo da Câmera', 'Marca da Câmera', '1920x1080');
