@@ -51,7 +51,7 @@ export default function CadastrarPeca() {
           'Todos os dados preenchidos foram descartados.',
           'success',
         );
-        navegar('/divisao');
+        navegar('/pecas');
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });

@@ -26,3 +26,14 @@ interface Secao {
   descricao: string;
   idDivisao: string;
 }
+
+interface Peca {
+  id: String;
+  nome: String;
+  autor: String;
+  curador: String;
+  descricao: String;
+  estado_conservacao: String;
+  data_adquirida: String;
+  secao: String;
+}
