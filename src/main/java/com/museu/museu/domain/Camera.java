@@ -6,7 +6,7 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Camera {
 
-    @Id
+    @id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String modelo;
@@ -15,10 +15,6 @@ public class Camera {
 
     @OneToOne(mappedBy = "camera")
     private Peca peca;
-
-    // Construtor vazio
-    public Camera() {
-    }
 
     // Construtor com atributos
     public Camera(String modelo, String marca, String resolucao) {

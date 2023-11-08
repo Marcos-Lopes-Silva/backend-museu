@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.museu.museu.domain.CategoriaIngresso;
+import com.museu.museu.domain.Divisao;
 import com.museu.museu.domain.Divisao;
 import com.museu.museu.dto.DadosDivisao;
 import com.museu.museu.repositories.DivisaoRepository;
@@ -34,21 +34,19 @@ public class DivisaoController {
         var novaDivisao = divisaoRepository.save(new Divisao(divisao));
 
         return ResponseEntity.ok(new DadosDivisao(novaDivisao));
-
+        }
+        
          @DeleteMapping("/delete/{id}")
     @Transactional
-    public ResponseEntity<String> deleteCategoriaIngresso(@PathVariable Long id) {
-        Optional<CategoriaIngresso> optionalCategoriaIngresso = categoriaIngressoRepository.findById(id);
+    public ResponseEntity<String> deleteDivisao(@PathVariable Long id) {
+        Optional<Divisao> optionalDivisao = DivisaoRepository.findById(id);
 
-        if (optionalCategoriaIngresso.isPresent()) {
+        if (optionalDivisao.isPresent()) {
     
-            categoriaIngressoRepository.delete(optionalCategoriaIngresso.get());
-            return ResponseEntity.ok("Categoria de ingresso deletada.");
+            DivisaoRepository.delete(optionalDivisao.get());
+            return ResponseEntity.ok("Categoria de Divisao deletada.");
         } else {
            
             return ResponseEntity.notFound().build();
-        }
     }
-    }
-    
-}
+
