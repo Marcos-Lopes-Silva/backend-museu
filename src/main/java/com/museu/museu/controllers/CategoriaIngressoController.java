@@ -1,5 +1,7 @@
 package com.museu.museu.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,7 @@ public class CategoriaIngressoController {
         return ResponseEntity.ok(new DadosCategoriaIngresso(novaCategoriaIngresso));
       
 }
+}
  @DeleteMapping("/delete/{id}")
     @Transactional
     public ResponseEntity<String> deleteCategoriaIngresso(@PathVariable Long id) {
@@ -44,3 +47,5 @@ public class CategoriaIngressoController {
             
             return ResponseEntity.notFound().build();
 }
+    }
+

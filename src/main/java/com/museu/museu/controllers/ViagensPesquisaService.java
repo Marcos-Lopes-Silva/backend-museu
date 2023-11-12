@@ -1,8 +1,11 @@
+package com.museu.museu.controllers;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.museu.museu.domain.Role;
 import com.museu.museu.domain.ViagensPesquisa;
 import com.museu.museu.repositories.ViagensPesquisaRepository;
 

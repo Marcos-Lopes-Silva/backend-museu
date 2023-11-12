@@ -1,3 +1,5 @@
+package com.museu.museu.controllers;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.museu.museu.domain.Camera;
+import com.museu.museu.dto.DadosCamera;
 import com.museu.museu.repositories.CameraRepository;
 
 @RestController

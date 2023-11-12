@@ -1,6 +1,7 @@
 package com.museu.museu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,15 +35,16 @@ public class IngressosController {
 
     @PostMapping("/venda")
     @Transactional
-    public ResponseEntity<DadosIngresso> vender(@Valid @RequestBody DadosIngresso dadosIngresso,
+    public ResponseEntity<String> vender(@Valid @RequestBody DadosIngresso dadosIngresso,
             HttpServletRequest request) {
 
         var user = request.getAttribute("user");
 
         if (user != null) {
             if (getCurrentCapacity() >= MAX_CAPACITY) {
-                return ResponseEntity.badRequest().body("Capacidade máxima atingida.");
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Capacidade máxima atingida.");
             }
+            else{
             var ingresso = new Ingresso(dadosIngresso);
 
             var funcionario = funcionarioRepository.findById(((Usuario) user).getId());
@@ -64,13 +66,12 @@ public class IngressosController {
     @Transactional
     public ResponseEntity<String> deleteIngresso(@PathVariable Long id) {
     
-        Optional<Ingresso> optionalIngresso = ingressoRepository.findById(id);
-
-        if (optionalIngresso.isPresent()) {
-       
-            ingressoRepository.delete(optionalIngresso.get());
-            return ResponseEntity.ok("Pessoa saiu do Museu");
-        } else {
-           
-            return ResponseEntity.notFound().build();
+        return ingressoRepository.findById(id);
+        .map(ingresso -> {
+            ingressoRepository.delete(ingresso);
+            return ResponseEntity.ok("Ingresso deletado.");
+        })
+        .orElse(ResponseEntity.notFound().build());
 }
+    }
+    
