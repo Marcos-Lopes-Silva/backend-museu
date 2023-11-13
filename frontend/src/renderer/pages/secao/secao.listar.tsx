@@ -3,6 +3,7 @@ import TopBar from '../../components/TopBar';
 import { api } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 import ListComponent from '../../components/List';
+import Button from '../../components/Button';
 
 export default function ListarSecao() {
   const [data, setData] = useState<{ content: Secao[] }>({ content: [] });
@@ -22,9 +23,20 @@ export default function ListarSecao() {
       });
   }, []);
 
+  const handleCadastrar = () => {
+    navegar('/secao/cadastrar');
+  };
   return (
     <div>
       <TopBar />
+
+      <div className="div-btn">
+        <Button
+          children="Adicionar Seção"
+          className="btn-adc-funcionario"
+          onClick={handleCadastrar}
+        />
+      </div>
 
       <div id="funcionarios" className="list-funcionarios">
         {data.content.map((secao, index) => (

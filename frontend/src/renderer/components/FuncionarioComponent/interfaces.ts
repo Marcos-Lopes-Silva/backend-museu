@@ -25,6 +25,9 @@ interface Secao {
   nome: string;
   descricao: string;
   idDivisao: string;
+  predio: string;
+  sala: string;
+  nomeDivisao: string;
 }
 
 interface Peca {

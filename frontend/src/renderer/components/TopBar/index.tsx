@@ -1,8 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import iconUnipampa from 'assets/icons/Museum.png';
 import './index.css';
+import { useNavigate } from 'react-router-dom';
+import Button from '../Button';
 
 export default function TopBar() {
+  const navegar = useNavigate();
+
+  const handleClick = () => {
+    localStorage.removeItem('token');
+    navegar('/');
+  };
+
   return (
     <div className="top-nav">
       <div className="top-nav-left-content">
@@ -23,12 +32,12 @@ export default function TopBar() {
       <div className="top-nav-right-content">
         <div>
           <a href="" className="a">
-            Configurações
+            Perfil
           </a>
         </div>
         <div>
           <a href="" className="a">
-            Perfil
+            <Button onClick={handleClick}>Desconectar</Button>
           </a>
         </div>
       </div>
