@@ -411,4 +411,53 @@ body, html {
   word-wrap: break-word
 }
 
+.conteudo-inferior {
+  margin: 0;
+  margin-top: 5%;
+  /* width: 90%; */
+  height: 350px;
+}
 
+.conteudo-colunas {
+  margin-left: 5%;
+  margin-right: 5%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Cria 3 colunas de largura igual */
+  gap: 20px; /* Define um espaçamento entre as colunas */
+}
+
+.conteudo {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+  align-items: center;
+  aspect-ratio: 16 / 9; /* Proporção 16:9 (largura:altura) */
+  height: 20rem;
+  border-radius: 5%;
+  background-image: url("assets/divisoes.jpg");
+  background-size: cover;
+}
+
+.conteudo2 {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+  align-items: center;
+  aspect-ratio: 16 / 9; /* Proporção 16:9 (largura:altura) */
+  height: 20rem;
+  border-radius: 5%;
+  background-image: url("assets/predios.jpg");
+  background-size: cover;
+}
+
+.conteudo3 {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+  align-items: center;
+  aspect-ratio: 16 / 9; /* Proporção 16:9 (largura:altura) */
+  height: 20rem;
+  border-radius: 5%;
+  background-image: url("assets/backgroundCreateFuncionario.jpg");
+  background-size: cover;
+}

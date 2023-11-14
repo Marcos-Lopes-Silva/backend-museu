@@ -45,7 +45,6 @@ export default function Home() {
       <TopBar />
       <MuseumInitial />
       <Sections />
-      <Divisions />
       <LinhaQuadrados />
     </div>
     // <section className="h-screen w-full bg-black">
