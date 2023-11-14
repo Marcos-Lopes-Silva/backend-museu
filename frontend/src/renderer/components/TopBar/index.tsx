@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import iconUnipampa from 'assets/icons/Museum.png';
 import './index.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../Button';
 
 export default function TopBar() {
@@ -16,9 +16,12 @@ export default function TopBar() {
     <div className="top-nav">
       <div className="top-nav-left-content">
         <div>
-          <a href="" className="a" id="paginitial">
+          <Link to="/home" className="a" id="paginitial">
             Página Inicial
-          </a>
+          </Link>
+          {/* <a href="" className="a" id="paginitial">
+            Página Inicial
+          </a> */}
         </div>
         <div>
           <a href="" className="a">
