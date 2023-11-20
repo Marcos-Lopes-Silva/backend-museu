@@ -19,6 +19,8 @@ import ListarSecao from './pages/secao/secao.listar';
 import ListarPecas from './pages/peca/peca.listar';
 import CadastrarPeca from './pages/peca/peca.cadastrar';
 import EditarSecao from './pages/secao/secao.editar';
+import ListarViagensPesquisador from './pages/funcionario/funcionario.viagem.pesquisa';
+import CadastrarViagemPesquisador from './pages/funcionario/funcionario.viagempesquisa.cadastrar';
 
 export default function App() {
   return (
@@ -44,6 +46,14 @@ export default function App() {
           <Route path="/secao/:id/editar" element={<EditarSecao />} />
           <Route path="/pecas" element={<ListarPecas />} />
           <Route path="/pecas/cadastrar" element={<CadastrarPeca />} />
+          <Route
+            path="/viagenspesquisador"
+            element={<ListarViagensPesquisador />}
+          />
+          <Route
+            path="/viagenspesquisador/cadastrar"
+            element={<CadastrarViagemPesquisador />}
+          />
           <Route path="*" element={<Home />} />
         </Routes>
       </Router>
