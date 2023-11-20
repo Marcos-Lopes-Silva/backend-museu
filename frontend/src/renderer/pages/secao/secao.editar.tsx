@@ -9,7 +9,6 @@ type TipoSecao = {
   id: String;
   nome: string;
   descricao: string;
-  idDivisao: string;
 };
 
 export default function EditarSecao() {
@@ -21,16 +20,16 @@ export default function EditarSecao() {
     id: '',
     nome: '',
     descricao: '',
-    idDivisao: '',
   });
 
   useEffect(() => {
-    // Faz uma chamada para a API para obter dados de funcionários
+    // Faz uma chamada para a API para obter dados de seção
     api
       .get(`/secao/${id}`)
       .then((response) => {
         // Atualiza o estado com os dados recebidos da API
-        setSecao(response.data);
+        const { id, nome, descricao } = response.data;
+        setSecao({ id, nome, descricao });
       })
       .catch((error) => {
         console.error('Erro ao buscar dados:', error);
@@ -54,17 +53,35 @@ export default function EditarSecao() {
         await api
           .put(`/secao/${id}`, secao)
           .then((data) => {
-            navegar('/funcionarios');
-            toast.success('Funcionario editado com sucesso!');
+            navegar('/secao');
+            toast.success('Seção editada com sucesso!');
           })
           .catch((err) => {
-            toast.error('Não foi possível aplicar alterações ao Funcionario.');
+            toast.error('Não foi possível aplicar alterações à Seção.');
           });
-        navegar('/funcionarios');
+        // navegar('/secao');
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
   }
+
+  const handleCancelar = () => {
+    Swal.fire({
+      title: 'Você tem certeza?',
+      text: 'Todas as alteroções serão descartadas.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Edição cancelada', 'Nenhum dado foi alterado.', 'success');
+        navegar('/secao');
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      }
+    });
+  };
 
   const handleChange = (fieldName: keyof TipoSecao, value: string) => {
     setSecao((prevSecao) => ({
@@ -81,7 +98,7 @@ export default function EditarSecao() {
         <div className="box">
           <div className="create-area">
             <div className="create-area-content">
-              <h1 className="title">Cadastrar Seção</h1>
+              <h1 className="title">Editar Seção</h1>
               <div id="msg"></div>
               <div className="input-container">
                 <input
@@ -109,26 +126,13 @@ export default function EditarSecao() {
                   Descrição
                 </label>
               </div>
-              <div className="input-container">
-                <input
-                  type="text"
-                  className="input-text"
-                  name="divisaoId"
-                  value={secao.idDivisao}
-                  onChange={(e) => handleChange('idDivisao', e.target.value)}
-                  required
-                />
-                <label htmlFor="name" className="input-label">
-                  ID da Divisão
-                </label>
-              </div>
 
               <div className="btns">
                 <button
                   type="button"
                   id="cancel-btn"
                   className="cancel-btn"
-                  // onClick={handleCancelar}
+                  onClick={handleCancelar}
                   defaultChecked
                 >
                   Cancelar
