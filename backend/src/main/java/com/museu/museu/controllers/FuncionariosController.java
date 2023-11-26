@@ -1,7 +1,9 @@
 package com.museu.museu.controllers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +23,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.museu.museu.domain.Cache;
+import com.museu.museu.domain.FactoryFuncionario;
 import com.museu.museu.domain.Funcionario;
+import com.museu.museu.domain.Role;
 import com.museu.museu.domain.Usuario;
 import com.museu.museu.dto.CadastroFuncionario;
 import com.museu.museu.dto.DadosFuncionario;
 import com.museu.museu.dto.DadosListagemFuncionario;
 import com.museu.museu.dto.EditarFuncionario;
 import com.museu.museu.repositories.FuncionarioRepository;
+import com.museu.museu.repositories.RoleRepository;
 import com.museu.museu.repositories.UsuarioRepository;
 
 import jakarta.validation.Valid;
@@ -34,6 +41,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/funcionarios")
 @RestController
 public class FuncionariosController {
+
+    // @Autowired
+    // private Cache cache;
+
+    private Cache cache = Cache.getInstance();
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
@@ -44,14 +56,20 @@ public class FuncionariosController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @PostMapping("/novo")
     @Transactional
     public ResponseEntity<DadosFuncionario> registrarFuncionario(@Valid @RequestBody CadastroFuncionario funcionario,
             UriComponentsBuilder builder) {
 
-        Funcionario novoFuncionario = new Funcionario(funcionario);
+        FactoryFuncionario f = new FactoryFuncionario();
+        Funcionario novoFuncionario = f.getFuncionario(funcionario);
+        Collection<Role> role = new ArrayList<>();
 
-        Usuario usuario = new Usuario(funcionario.email(), encoder.encode(funcionario.senha()), novoFuncionario);
+        role.add(roleRepository.findByNome(funcionario.role()));
+        Usuario usuario = new Usuario(funcionario.email(), encoder.encode(funcionario.senha()), novoFuncionario, role);
 
         novoFuncionario.setUsuario(usuario);
 
@@ -65,12 +83,20 @@ public class FuncionariosController {
 
     @GetMapping("{id}")
     public ResponseEntity<DadosFuncionario> infoFuncionario(@PathVariable Integer id) {
+        cache.imprime();
+        Funcionario cachedfuncionario = (Funcionario) cache.get("funcionario" + id);
+
+        if (cachedfuncionario != null) {
+            return ResponseEntity.ok(new DadosFuncionario(cachedfuncionario));
+        }
+
         var funcionario = funcionarioRepository.findById(id);
 
         if (funcionario.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
+        cache.put("funcionario" + id, funcionario.get());
         return ResponseEntity.ok(new DadosFuncionario(funcionario.get()));
     }
 
@@ -88,10 +114,10 @@ public class FuncionariosController {
             dadosList.add(new DadosListagemFuncionario(f));
         }
 
+        System.out.println(dadosList);
         Page<DadosListagemFuncionario> dadosPage = new PageImpl<>(dadosList, paginacao, 0);
 
         return ResponseEntity.ok(dadosPage);
-
     }
 
     @PutMapping("{id}")
@@ -99,9 +125,24 @@ public class FuncionariosController {
     public ResponseEntity<DadosFuncionario> mudarDados(@PathVariable Integer id,
             @RequestBody @Valid EditarFuncionario f) {
 
-        var funcionario = funcionarioRepository.findById(id);
-        funcionario.get().setEdit(f);
+        cache.remove("funcionario" + id);
+        var updateFuncionario = funcionarioRepository.findById(id);
+        updateFuncionario.get().setEdit(f);
 
-        return null;
+        funcionarioRepository.save(updateFuncionario.get());
+
+        return ResponseEntity.ok(new DadosFuncionario(updateFuncionario.get()));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> demitirFuncionario(@PathVariable Integer id) {
+
+        Optional<Funcionario> f = funcionarioRepository.findById(id);
+
+        f.get().setDemitido(true);
+
+        funcionarioRepository.save(f.get());
+
+        return ResponseEntity.noContent().build();
     }
 }

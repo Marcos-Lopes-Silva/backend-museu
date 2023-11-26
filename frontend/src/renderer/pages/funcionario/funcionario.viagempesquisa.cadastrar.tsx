@@ -82,7 +82,10 @@ export default function CadastrarViagemPesquisador() {
     e.preventDefault();
 
     await api
-      .post('/viagenspesquisador/novo', viagemPesquisador)
+      .post(
+        `/viagenspesquisa/cadastrar/${viagemPesquisador.idFuncionario}`,
+        viagemPesquisador,
+      )
       .then((data) => {
         navegar('/viagenspesquisador');
         toast.success('Viagem cadastrada com sucesso!');

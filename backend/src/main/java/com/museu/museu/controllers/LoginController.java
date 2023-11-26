@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +28,31 @@ public class LoginController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<Token> login(@Valid @RequestBody DadosLogin dados) {
-        System.out.println("oii");
-
+    public ResponseEntity<Object> login(@Valid @RequestBody DadosLogin dados) {
+        System.out.println(dados);
+        Authentication authentication = null;
+        String token = null;
         var authToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-        var authentication = authManager.authenticate(authToken);
-        var token = tokenService.getToken((Usuario) authentication.getPrincipal());
+        try {
+            authentication = authManager.authenticate(authToken);
+            token = tokenService.getToken((Usuario) authentication.getPrincipal());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new ErrorResponse("Login ou senha inválidos."));
+        }
 
         return ResponseEntity.ok(new Token(token));
+    }
+
+    public static class ErrorResponse {
+        private final String message;
+
+        public ErrorResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 
 }

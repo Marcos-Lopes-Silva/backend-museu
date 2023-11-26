@@ -14,7 +14,7 @@ import com.museu.museu.domain.Usuario;
 @Service
 public class TokenService {
 
-    @Value("${jwt.secre}")
+    @Value("${JWT.SECRET}")
     private String secret;
 
     public String getToken(Usuario user) {
@@ -25,7 +25,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("MUSEU5599 API")
                     .withSubject(user.getEmail())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000000))
                     .sign(algoritmo);
 
         } catch (JWTCreationException exception) {

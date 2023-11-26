@@ -2,6 +2,7 @@ package com.museu.museu.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
@@ -21,8 +22,10 @@ import org.springframework.data.domain.Pageable;
 import com.museu.museu.domain.EmprestarPeca;
 import com.museu.museu.domain.Peca;
 import com.museu.museu.dto.DadosListagemPeca;
+import com.museu.museu.dto.DadosPeca;
 import com.museu.museu.dto.NovaPeca;
 import com.museu.museu.repositories.PecaRepository;
+import com.museu.museu.repositories.SecaoRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -35,21 +38,25 @@ public class PecaController {
     @Autowired
     private PecaRepository pecaRepository;
 
+    @Autowired
+    private SecaoRepository secaoRepository;
+
     
     @PostMapping("/criar")
     @Transactional
-    public ResponseEntity<Peca> criarPeca(@Valid @RequestBody NovaPeca peca, HttpServletRequest request,
+    public ResponseEntity<DadosPeca> criarPeca(@Valid @RequestBody NovaPeca peca, HttpServletRequest request,
             UriComponentsBuilder builder) {
         Peca novaPeca = new Peca(peca);
-
+        var secao = secaoRepository.findById(peca.secao());
+        novaPeca.setSecao(secao.get());
         pecaRepository.save(novaPeca);
 
-        var uri = builder.path("/pecas/{id}").buildAndExpand(novaPeca.getId()).toUri();
+        var uri = builder.buildAndExpand(novaPeca.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(novaPeca);
+        return ResponseEntity.created(uri).body(new DadosPeca(novaPeca));
     }
 
-    @GetMapping("/listar")
+    @GetMapping
     public ResponseEntity<Page<DadosListagemPeca>> listarPecas(
             @PageableDefault(size = 10, sort = "id") Pageable paginacao, String filtro) {
 
@@ -89,7 +96,7 @@ public class PecaController {
     }
 
     @Transactional
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> excluirPeca(@PathVariable Integer id) {
 
         pecaRepository.deleteById(id);
@@ -97,12 +104,12 @@ public class PecaController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Peca> detalharPeca(@PathVariable Integer id) {
+    @GetMapping("/d/{id}")
+    public ResponseEntity<DadosPeca> detalharPeca(@PathVariable Integer id) {
 
-        Peca peca = pecaRepository.findById(id).get();
+        Optional<Peca> peca = pecaRepository.findById(id);
 
-        return ResponseEntity.ok(peca);
+        return ResponseEntity.ok(new DadosPeca(peca.get()));
     }
 
     public ResponseEntity<Peca> emprestarPeca(@Valid @RequestBody EmprestarPeca emprestarPeca, @PathVariable Integer id,
