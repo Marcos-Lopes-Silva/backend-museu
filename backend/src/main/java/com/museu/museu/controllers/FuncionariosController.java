@@ -114,7 +114,6 @@ public class FuncionariosController {
             dadosList.add(new DadosListagemFuncionario(f));
         }
 
-        System.out.println(dadosList);
         Page<DadosListagemFuncionario> dadosPage = new PageImpl<>(dadosList, paginacao, 0);
 
         return ResponseEntity.ok(dadosPage);

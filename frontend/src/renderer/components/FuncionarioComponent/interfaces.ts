@@ -53,3 +53,10 @@ interface ViagensPesquisa {
   data_fim: string;
   resultados: String;
 }
+
+interface Divisao {
+  id: String;
+  nome: String;
+  predio: String;
+  sala: String;
+}
