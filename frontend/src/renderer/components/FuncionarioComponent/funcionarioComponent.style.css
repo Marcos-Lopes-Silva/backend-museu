@@ -154,3 +154,9 @@ body, html {
   opacity: 0.25;
   background: #ffffff;
 }
+
+.viagem-aprovada {
+  background-color: #abaeb2;
+  color: white;
+
+}

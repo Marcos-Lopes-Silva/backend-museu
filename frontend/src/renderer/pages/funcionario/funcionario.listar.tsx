@@ -8,6 +8,7 @@ export default function ListarFuncionario() {
   // Inicializa o estado com um objeto contendo uma propriedade 'content' que é um array de Funcionario
   const [data, setData] = useState<{ content: Funcionario[] }>({ content: [] });
   const [numberOfFuncionarios, setNumberOfFuncionarios] = useState(0);
+  const [numberOfViagens, setNumberOfViagens] = useState(0);
 
   const navegar = useNavigate();
 
@@ -23,6 +24,15 @@ export default function ListarFuncionario() {
         // Atualiza o estado com os dados recebidos da API
         setData(response.data);
         setNumberOfFuncionarios(response.data.content.length);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar dados:', error);
+      });
+
+    api
+      .get('/viagenspesquisa')
+      .then((response) => {
+        setNumberOfViagens(response.data.content.length);
       })
       .catch((error) => {
         console.error('Erro ao buscar dados:', error);
@@ -48,7 +58,7 @@ export default function ListarFuncionario() {
               Viagens Pesquisadores
             </Link>
           </div>
-          <div className="sub-info">18 viagens</div>
+          <div className="sub-info">{numberOfViagens} viagens</div>
         </div>
       </div>
 

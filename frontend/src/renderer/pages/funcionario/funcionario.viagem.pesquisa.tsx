@@ -11,6 +11,7 @@ export default function ListarViagensPesquisador() {
     content: [],
   });
   const [numberOfFuncionarios, setNumberOfFuncionarios] = useState(0);
+  const [numberOfViagens, setNumberOfViagens] = useState(0);
 
   const navegar = useNavigate();
 
@@ -25,6 +26,15 @@ export default function ListarViagensPesquisador() {
       .then((response) => {
         // Atualiza o estado com os dados recebidos da API
         setData(response.data);
+        setNumberOfViagens(response.data.content.length);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar dados:', error);
+      });
+
+    api
+      .get('/funcionarios')
+      .then((response) => {
         setNumberOfFuncionarios(response.data.content.length);
       })
       .catch((error) => {
@@ -51,7 +61,7 @@ export default function ListarViagensPesquisador() {
               Viagens Pesquisadores
             </Link>
           </div>
-          <div className="sub-info">18 viagens</div>
+          <div className="sub-info">{numberOfViagens} viagens</div>
         </div>
       </div>
 

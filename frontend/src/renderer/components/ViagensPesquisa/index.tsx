@@ -9,6 +9,9 @@ import iconDataInicio from 'assets/icons/data_inicio.png';
 import iconDataFim from 'assets/icons/data_fim.png';
 import iconCusto from 'assets/icons/custo.png';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { api } from '../../api/api';
+import { toast } from 'react-toastify';
 
 type ViagensPesquisaComponentProps = {
   viagensPesquisa: ViagensPesquisa;
@@ -25,6 +28,29 @@ export default function ViagensPesquisaComponent({
     const ano = data.getFullYear();
 
     return `${dia}/${mes}/${ano}`;
+  }
+
+  function handleAprovar() {
+    Swal.fire({
+      title: 'Deseja realmente aprovar a viagem?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await api
+          .put(`viagenspesquisa/aprovar/${viagensPesquisa.id}`)
+          .then((data) => {
+            toast.success('Viagem aprovada com sucesso!');
+          })
+          .catch((err) => {
+            toast.error('Não foi possível aprovar viagem.');
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      }
+    });
   }
 
   return (
@@ -63,10 +89,14 @@ export default function ViagensPesquisaComponent({
           <hr />
         </div>
         <div>
-          <Link
-            to={`/viagenspesquisador/${viagensPesquisa.idPesquisador}/aprovar`}
-          >
-            <button className="btn-editar" disabled={viagensPesquisa.aprovada}>
+          <Link to={`/viagenspesquisador`}>
+            <button
+              className={`btn-editar ${
+                viagensPesquisa.aprovada ? 'viagem-aprovada' : ''
+              }`}
+              disabled={viagensPesquisa.aprovada}
+              onClick={handleAprovar}
+            >
               {viagensPesquisa.aprovada ? 'Viagem Aprovada' : 'Aprovar Viagem'}
             </button>
           </Link>
