@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import com.museu.museu.domain.Cache;
 import com.museu.museu.domain.EmprestarPeca;
 import com.museu.museu.domain.Peca;
 import com.museu.museu.dto.DadosListagemPeca;
@@ -35,11 +36,17 @@ import jakarta.validation.Valid;
 @RequestMapping("/pecas")
 public class PecaController {
 
-    @Autowired
-    private PecaRepository pecaRepository;
+    private Cache cache = Cache.getInstance();
+    private final PecaRepository pecaRepository;
+
+    
+    private final SecaoRepository secaoRepository;
 
     @Autowired
-    private SecaoRepository secaoRepository;
+    public PecaController(PecaRepository pecaRepository, SecaoRepository secaoRepository) {
+        this.pecaRepository = pecaRepository;
+        this.secaoRepository = secaoRepository;
+    }
 
     
     @PostMapping("/criar")
@@ -48,12 +55,17 @@ public class PecaController {
             UriComponentsBuilder builder) {
         Peca novaPeca = new Peca(peca);
         var secao = secaoRepository.findById(peca.secao());
-        novaPeca.setSecao(secao.get());
-        pecaRepository.save(novaPeca);
+        if (secao.isPresent()) {
+            novaPeca.setSecao(secao.get());
+            pecaRepository.save(novaPeca);
 
-        var uri = builder.buildAndExpand(novaPeca.getId()).toUri();
+            var uri = builder.buildAndExpand(novaPeca.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new DadosPeca(novaPeca));
+            return ResponseEntity.created(uri).body(new DadosPeca(novaPeca));
+        } else {
+            // Handle the case when the secao is not found
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping
@@ -61,7 +73,7 @@ public class PecaController {
             @PageableDefault(size = 10, sort = "id") Pageable paginacao, String filtro) {
 
         if (filtro == null) {
-
+            
             Page<Peca> lista = pecaRepository.findAll(paginacao);
 
             var dados = lista.getContent();
@@ -69,6 +81,7 @@ public class PecaController {
             List<DadosListagemPeca> dadosList = new ArrayList<>();
 
             for (Peca p : dados) {
+                // cache.put("peca" + p.getId(), new DadosListagemPeca(p));
                 dadosList.add(new DadosListagemPeca(p));
             }
 
@@ -104,36 +117,51 @@ public class PecaController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/d/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<DadosPeca> detalharPeca(@PathVariable Integer id) {
+        if(cache.get("peca" + id) != null) {
+            return ResponseEntity.ok(new DadosPeca((Peca) cache.get("peca" + id)));
+        } else {
+            Optional<Peca> peca = pecaRepository.findById(id);
 
-        Optional<Peca> peca = pecaRepository.findById(id);
-
-        return ResponseEntity.ok(new DadosPeca(peca.get()));
+        if (peca.isPresent()) {
+            return ResponseEntity.ok(new DadosPeca(peca.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+        }
+        
     }
 
-    public ResponseEntity<Peca> emprestarPeca(@Valid @RequestBody EmprestarPeca emprestarPeca, @PathVariable Integer id,
-            HttpServletRequest request, UriComponentsBuilder builder) {
+    public ResponseEntity<Peca> emprestarPeca(@Valid @RequestBody EmprestarPeca emprestarPeca, @PathVariable Integer id, UriComponentsBuilder builder) {
 
-        Peca peca = pecaRepository.findById(id).get();
+        Optional<Peca> optionalPeca = pecaRepository.findById(id);
+        if (optionalPeca.isPresent()) {
+            Peca peca = optionalPeca.get();
+            peca.setEmprestarPeca(emprestarPeca);
 
-        peca.setEmprestarPeca(emprestarPeca);
+            var uri = builder.path("/pecas/{id}").buildAndExpand(peca.getId()).toUri();
 
-        var uri = builder.path("/pecas/{id}").buildAndExpand(peca.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(peca);
+            return ResponseEntity.created(uri).body(peca);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
-    public ResponseEntity<Peca> devolverPeca(@PathVariable Integer id, HttpServletRequest request,
+    public ResponseEntity<Peca> devolverPeca(@PathVariable Integer id, 
             UriComponentsBuilder builder) {
 
-        Peca peca = pecaRepository.findById(id).get();
+        Optional<Peca> optionalPeca = pecaRepository.findById(id);
+        if (optionalPeca.isPresent()) {
+            Peca peca = optionalPeca.get();
+            peca.setEmprestarPeca(null);
 
-        peca.setEmprestarPeca(null);
+            var uri = builder.path("/pecas/{id}").buildAndExpand(peca.getId()).toUri();
 
-        var uri = builder.path("/pecas/{id}").buildAndExpand(peca.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(peca);
+            return ResponseEntity.created(uri).body(peca);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

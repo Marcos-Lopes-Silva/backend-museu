@@ -42,8 +42,6 @@ import jakarta.validation.Valid;
 @RestController
 public class FuncionariosController {
 
-    // @Autowired
-    // private Cache cache;
 
     private Cache cache = Cache.getInstance();
 
@@ -58,6 +56,9 @@ public class FuncionariosController {
 
     @Autowired
     private RoleRepository roleRepository;
+
+
+    
 
     @PostMapping("/novo")
     @Transactional

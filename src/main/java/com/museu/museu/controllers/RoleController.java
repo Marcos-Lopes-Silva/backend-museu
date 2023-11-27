@@ -5,12 +5,15 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.museu.museu.domain.Cache;
 import com.museu.museu.domain.Role;
 import com.museu.museu.dto.CadastroRole;
 import com.museu.museu.repositories.RoleRepository;
@@ -22,8 +25,12 @@ import jakarta.validation.Valid;
 public class RoleController {
     
 
+    private final RoleRepository roleRepository;
+
     @Autowired
-    private RoleRepository roleRepository;
+    public RoleController (RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
 
     @Transactional
@@ -38,4 +45,14 @@ public class RoleController {
 
         return ResponseEntity.created(uri).body(role);
     }
+
+    @DeleteMapping("{id}")
+    @Transactional
+    public ResponseEntity<String> removerRole(@PathVariable Integer id) {
+        roleRepository.deleteById(id);
+
+        return ResponseEntity.notFound().build();
+    }
+
+
 }

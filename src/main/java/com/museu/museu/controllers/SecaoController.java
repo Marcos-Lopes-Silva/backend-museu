@@ -36,31 +36,40 @@ import jakarta.validation.Valid;
 @RestController
 public class SecaoController {
 
-    // @Autowired
-    // private Cache cache;
 
     private Cache cache = Cache.getInstance();
 
-    @Autowired
-    private SecaoRepository secaoRepository;
+    
+    private final SecaoRepository secaoRepository;
+
+    
+    private final DivisaoRepository divisaoRepository;
 
     @Autowired
-    private DivisaoRepository divisaoRepository;
+    public SecaoController (SecaoRepository secaoRepository, DivisaoRepository divisaoRepository) {
+        this.secaoRepository = secaoRepository;
+        this.divisaoRepository = divisaoRepository;
+    }
+
 
     @Transactional
     @PostMapping("/nova")
     public ResponseEntity<DadosSecao> novaSecao(@Valid @RequestBody CadastroSecao cadastroSecao,
             UriComponentsBuilder builder, HttpServletRequest request) {
         var divisao = divisaoRepository.findById(cadastroSecao.divisaoId());
-        var secao = new Secao(cadastroSecao);
+        if (divisao.isPresent()) {
+            var secao = new Secao(cadastroSecao);
 
-        secao.setDivisao(divisao.get());
+            secao.setDivisao(divisao.get());
 
-        secaoRepository.save(secao);
+            secaoRepository.save(secao);
 
-        var uri = builder.path("/secao/{id}").buildAndExpand(secao.getId()).toUri();
+            var uri = builder.path("/secao/{id}").buildAndExpand(secao.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new DadosSecao(secao));
+            return ResponseEntity.created(uri).body(new DadosSecao(secao));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping

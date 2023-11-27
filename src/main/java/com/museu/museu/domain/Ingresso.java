@@ -50,4 +50,12 @@ public class Ingresso {
     public void setVendedor(Optional<Funcionario> funcionario) {
 
     }
+
+    public boolean getCompra_online() {
+        return this.compra_online;
+    }
+
+    public void setCompra_online(boolean compra_online) {
+        this.compra_online = compra_online;
+    }
 }

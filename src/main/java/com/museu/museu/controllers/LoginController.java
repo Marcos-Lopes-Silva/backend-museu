@@ -36,4 +36,5 @@ public class LoginController {
         return ResponseEntity.ok(new Token(token));
     }
 
+
 }
