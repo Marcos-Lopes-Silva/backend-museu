@@ -3,10 +3,13 @@ import FuncionarioComponent from '../../components/FuncionarioComponent';
 import TopBar from '../../components/TopBar';
 import { api } from '../../api/api';
 import { Link, useNavigate } from 'react-router-dom';
+import ViagensPesquisaComponent from '../../components/ViagensPesquisa';
 
 export default function ListarViagensPesquisador() {
   // Inicializa o estado com um objeto contendo uma propriedade 'content' que é um array de Funcionario
-  const [data, setData] = useState<{ content: Funcionario[] }>({ content: [] });
+  const [data, setData] = useState<{ content: ViagensPesquisa[] }>({
+    content: [],
+  });
   const [numberOfFuncionarios, setNumberOfFuncionarios] = useState(0);
 
   const navegar = useNavigate();
@@ -62,22 +65,15 @@ export default function ListarViagensPesquisador() {
         </button>
       </div>
 
-      {/* <div className="div-btn">
-        <button
-          id="btn-adc-funcionario"
-          className="btn-adc-funcionario"
-          onClick={handleCadastrar}
-        >
-          Adicionar funcionário
-        </button>
-      </div>
-
       <div id="funcionarios" className="list-funcionarios">
-        {data.content.map((funcionario, index) => (
+        {data.content.map((viagensPesquisa, index) => (
           // Renderiza o componente FuncionarioComponent para cada funcionário
-          <FuncionarioComponent key={index} funcionario={funcionario} />
+          <ViagensPesquisaComponent
+            key={index}
+            viagensPesquisa={viagensPesquisa}
+          />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }

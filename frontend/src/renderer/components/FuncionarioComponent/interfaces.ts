@@ -40,3 +40,16 @@ interface Peca {
   data_adquirida: String;
   secao: String;
 }
+
+interface ViagensPesquisa {
+  id: String;
+  destino: String;
+  objetivo: String;
+  custos: String;
+  aprovada: boolean;
+  pesquisador: String;
+  idPesquisador: String;
+  data_inicio: string;
+  data_fim: string;
+  resultados: String;
+}
