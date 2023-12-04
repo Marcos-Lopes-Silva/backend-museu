@@ -46,7 +46,7 @@ export default function ViagensPesquisaComponent({
             toast.success('Viagem aprovada com sucesso!');
           })
           .catch((err) => {
-            toast.error('Não foi possível aprovar viagem.');
+            toast.error('Não foi possível aprovar a viagem.');
           });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }

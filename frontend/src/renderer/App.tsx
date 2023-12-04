@@ -21,6 +21,8 @@ import CadastrarPeca from './pages/peca/peca.cadastrar';
 import EditarSecao from './pages/secao/secao.editar';
 import ListarViagensPesquisador from './pages/funcionario/funcionario.viagem.pesquisa';
 import CadastrarViagemPesquisador from './pages/funcionario/funcionario.viagempesquisa.cadastrar';
+import ListarEmprestimosPecas from './pages/peca/peca.emprestimo.listar';
+import CadastrarEmprestimo from './pages/peca/peca.emprestimo.emprestar';
 
 export default function App() {
   return (
@@ -46,6 +48,8 @@ export default function App() {
           <Route path="/secao/:id/editar" element={<EditarSecao />} />
           <Route path="/pecas" element={<ListarPecas />} />
           <Route path="/pecas/cadastrar" element={<CadastrarPeca />} />
+          <Route path="/emprestimopecas" element={<ListarEmprestimosPecas />} />
+          <Route path="/emprestimopecas/emprestar" element={<CadastrarEmprestimo />} />
           <Route
             path="/viagenspesquisador"
             element={<ListarViagensPesquisador />}
