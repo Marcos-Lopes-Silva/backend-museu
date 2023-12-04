@@ -23,6 +23,7 @@ import ListarViagensPesquisador from './pages/funcionario/funcionario.viagem.pes
 import CadastrarViagemPesquisador from './pages/funcionario/funcionario.viagempesquisa.cadastrar';
 import ListarEmprestimosPecas from './pages/peca/peca.emprestimo.listar';
 import CadastrarEmprestimo from './pages/peca/peca.emprestimo.emprestar';
+import DevolverPeca from './pages/peca/peca.emprestimo.devolver';
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="/pecas" element={<ListarPecas />} />
           <Route path="/pecas/cadastrar" element={<CadastrarPeca />} />
           <Route path="/emprestimopecas" element={<ListarEmprestimosPecas />} />
+          <Route path="/emprestimopecas/devolver/:id" element={<DevolverPeca />} />
           <Route path="/emprestimopecas/emprestar" element={<CadastrarEmprestimo />} />
           <Route
             path="/viagenspesquisador"

@@ -9,6 +9,7 @@ export default function ListarPecas() {
   // Inicializa o estado com um objeto contendo uma propriedade 'content' que é um array de Funcionario
   const [data, setData] = useState<{ content: Peca[] }>({ content: [] });
   const [numberOfPecas, setNumberOfPecas] = useState(0);
+  const [numberOfEmprestimoPecas, setNumberOfEmprestimoPecas] = useState(0);
 
   const navegar = useNavigate();
 
@@ -25,6 +26,18 @@ export default function ListarPecas() {
         setData(response.data);
         setNumberOfPecas(response.data.content.length);
         console.log(data);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar dados:', error);
+      });
+
+      api
+      .get('/pecas', {
+        params: {
+          filtro: "emprestadas"
+        }})
+      .then((response) => {
+        setNumberOfEmprestimoPecas(response.data.content.length);
       })
       .catch((error) => {
         console.error('Erro ao buscar dados:', error);
@@ -50,7 +63,7 @@ export default function ListarPecas() {
               Empréstimo de Peças
             </Link>
           </div>
-          <div className="sub-info">X empréstimos</div>
+          <div className="sub-info">{numberOfEmprestimoPecas} empréstimos</div>
         </div>
       </div>
 

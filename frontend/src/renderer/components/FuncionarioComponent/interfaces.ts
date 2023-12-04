@@ -39,6 +39,11 @@ interface Peca {
   estado_conservacao: String;
   data_adquirida: String;
   secao: String;
+  emprestada: {
+    localizacao: String;
+    instituto: String;
+    data_devolucao: string
+  };
 }
 
 interface ViagensPesquisa {

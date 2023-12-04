@@ -9,6 +9,7 @@ export default function ListarEmprestimosPecas() {
   // Inicializa o estado com um objeto contendo uma propriedade 'content' que é um array de Funcionario
   const [data, setData] = useState<{ content: Peca[] }>({ content: [] });
   const [numberOfPecas, setNumberOfPecas] = useState(0);
+  const [numberOfEmprestimoPecas, setNumberOfEmprestimoPecas] = useState(0);
 
   const navegar = useNavigate();
 
@@ -24,13 +25,22 @@ export default function ListarEmprestimosPecas() {
     api
       .get('/pecas', {
         params: {
-          filter: filtro
+          filtro: filtro
         }})
       .then((response) => {
         // Atualiza o estado com os dados recebidos da API
         setData(response.data);
-        setNumberOfPecas(response.data.content.length);
+        setNumberOfEmprestimoPecas(response.data.content.length);
         console.log(data);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar dados:', error);
+      });
+
+      api
+      .get('/pecas')
+      .then((response) => {
+        setNumberOfPecas(response.data.content.length);
       })
       .catch((error) => {
         console.error('Erro ao buscar dados:', error);
@@ -43,7 +53,7 @@ export default function ListarEmprestimosPecas() {
 
       <div className="options-pages">
         <div>
-          <Link to="/funcionarios" className="a" id="paginitial">
+          <Link to="/pecas" className="a" id="paginitial">
             Peças
           </Link>
           <div id="qnt-funcionarios" className="sub-info">
@@ -52,11 +62,11 @@ export default function ListarEmprestimosPecas() {
         </div>
         <div>
           <div>
-            <Link to="/viagenspesquisador" className="a" id="paginitial">
+            <Link to="/emprestimopecas" className="a" id="paginitial">
               Empréstimo de Peças
             </Link>
           </div>
-          <div className="sub-info">empréstimos</div>
+          <div className="sub-info">{numberOfEmprestimoPecas} empréstimos</div>
         </div>
       </div>
 
@@ -71,7 +81,7 @@ export default function ListarEmprestimosPecas() {
       <div>
         <div id="funcionarios" className="list-funcionarios">
           {data.content.map((peca, index) => (
-            <PecaComponent key={index} peca={peca} />
+            <PecaComponent key={index} peca={peca} opcaoBtn='Confirmar devolução' emprestimo='true'/>
           ))}
         </div>
       </div>
