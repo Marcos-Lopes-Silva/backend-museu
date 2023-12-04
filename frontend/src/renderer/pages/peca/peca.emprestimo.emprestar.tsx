@@ -64,7 +64,7 @@ export default function CadastrarEmprestimo() {
     e.preventDefault();
 
     await api
-      .post(`/pecas/emprestar/${emprestimo.peca}`,
+      .put(`/pecas/emprestar/${emprestimo.peca}`,
         {
           ...emprestimo,
           data_devolucao: new Date(emprestimo.data_devolucao).toISOString()
@@ -85,10 +85,17 @@ export default function CadastrarEmprestimo() {
     api
       .get('/pecas')
       .then((response) => {
-        // Atualiza o estado com os dados recebidos da API
-        setData(response.data);
+        const result = response.data.content.filter((item: Peca) => {
+          return item.emprestada === null;
+        })
+        console.log(result);
+        setData({content: result});
         console.log(data);
       })
+      // .then((response) => {
+      //   console.log(response.data)
+      //   setData(response.data);
+      // })
       .catch((error) => {
         console.error('Erro ao buscar dados:', error);
       });
